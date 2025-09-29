@@ -6,7 +6,7 @@ import { ContactSection } from "./components/ContactSection";
 import { Footer } from "./components/Footer";
 import { ServicesSection } from "./components/ServicesSection";
 import { SafetyStandardsSection } from "./components/SafetyStandardsSection";
-import { GalleryPage } from "./pages/GalleryPage";
+import GalleryPage from "./pages/GalleryPage";
 
 function Home() {
   return (

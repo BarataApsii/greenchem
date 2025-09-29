@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { QuoteModal } from "./QuoteModal";
 import logo from "../images/logo.png";
 
 export function Header(): React.JSX.Element {
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [isServicesOpen, setIsServicesOpen] = useState<boolean>(false);
@@ -60,28 +58,15 @@ export function Header(): React.JSX.Element {
     };
   }, []);
   
-  const toggleServices = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsServicesOpen(prev => !prev);
+  const toggleServices = () => {
+    setIsServicesOpen(!isServicesOpen);
     if (isCategoriesOpen) setIsCategoriesOpen(false);
   };
 
-  const toggleCategories = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsCategoriesOpen(prev => !prev);
+  const toggleCategories = () => {
+    setIsCategoriesOpen(!isCategoriesOpen);
     if (isServicesOpen) setIsServicesOpen(false);
   };
-
-  const handleServiceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setIsServicesOpen(false);
-    const target = e.currentTarget.getAttribute('href');
-    if (target) {
-      const element = document.querySelector(target);
-      element?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-  
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -137,20 +122,34 @@ export function Header(): React.JSX.Element {
             </Link>
             
             <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/#home" className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base">
+              <Link 
+                to="/"
+                className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
+                onClick={() => {
+                  // If we're already on the home page, scroll to top
+                  if (window.location.pathname === '/') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+              >
                 Home
                 <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
               
-              <Link to="/#about" className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base">
+              <a 
+                href="#about" 
+                className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const aboutSection = document.getElementById('about');
+                  if (aboutSection) {
+                    aboutSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 About Us
                 <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-              
-              <Link to="/gallery" className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base">
-                Gallery
-                <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </Link>
+              </a>
               
               <div className="relative" ref={servicesRef}>
                 <button 
@@ -184,46 +183,30 @@ export function Header(): React.JSX.Element {
                   aria-orientation="vertical"
                   aria-labelledby="services-menu-button"
                 >
-                  <a 
-                    href="#pest-control" 
-                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
-                    role="menuitem"
-                    onClick={handleServiceClick}
-                  >
-                    Pest Control
-                  </a>
-                  <a 
-                    href="#swimming-pool" 
-                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
-                    role="menuitem"
-                    onClick={handleServiceClick}
-                  >
-                    Swimming Pool
-                  </a>
-                  <a 
-                    href="#landscaping" 
-                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
-                    role="menuitem"
-                    onClick={handleServiceClick}
-                  >
-                    Landscaping
-                  </a>
-                  <a 
-                    href="#water-chemical" 
-                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
-                    role="menuitem"
-                    onClick={handleServiceClick}
-                  >
-                    Water & Chemical Solutions
-                  </a>
-                  <a 
-                    href="#construction" 
-                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
-                    role="menuitem"
-                    onClick={handleServiceClick}
-                  >
-                    Construction
-                  </a>
+                  {[
+                    { id: 'pest-control', label: 'Pest Control' },
+                    { id: 'swimming-pool', label: 'Swimming Pool' },
+                    { id: 'landscaping', label: 'Landscaping' },
+                    { id: 'water-chemical', label: 'Water & Chemical Solutions' },
+                    { id: 'construction', label: 'Construction' }
+                  ].map((service) => (
+                    <a
+                      key={service.id}
+                      href={`#${service.id}`}
+                      className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                      role="menuitem"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const section = document.getElementById(service.id);
+                        if (section) {
+                          section.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        setIsServicesOpen(false);
+                      }}
+                    >
+                      {service.label}
+                    </a>
+                  ))}
                 </div>
                 )}
               </div>
@@ -248,9 +231,10 @@ export function Header(): React.JSX.Element {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
+                
                 {isCategoriesOpen && (
                   <div 
-                    className="absolute left-0 mt-2 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100"
+                    className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100"
                     style={{
                       boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
                       width: 'auto',
@@ -260,30 +244,40 @@ export function Header(): React.JSX.Element {
                     aria-orientation="vertical"
                     aria-labelledby="categories-menu-button"
                   >
-                    <a 
-                      href="#water-chemical" 
-                      className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
-                      role="menuitem"
-                      onClick={handleServiceClick}
-                    >
-                      Water & Chemical Solutions
-                    </a>
-                    <a 
-                      href="#construction" 
-                      className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
-                      role="menuitem"
-                      onClick={handleServiceClick}
-                    >
-                      Construction
-                    </a>
-                    <Link 
-                      to="/gallery" 
-                      className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
-                      role="menuitem"
-                      onClick={handleServiceClick}
-                    >
-                      Gallery
-                    </Link>
+                    <div className="flex flex-col">
+                      <Link 
+                        to="/gallery"
+                        className="w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors"
+                        role="menuitem"
+                        onClick={() => setIsCategoriesOpen(false)}
+                      >
+                        Gallery
+                      </Link>
+                      <Link
+                        to="/gallery?category=pest-control"
+                        className="w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors"
+                        role="menuitem"
+                        onClick={() => setIsCategoriesOpen(false)}
+                      >
+                        Pest Control
+                      </Link>
+                      <Link
+                        to="/gallery?category=water-chemical"
+                        className="w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors"
+                        role="menuitem"
+                        onClick={() => setIsCategoriesOpen(false)}
+                      >
+                        Water & Chemical
+                      </Link>
+                      <Link
+                        to="/gallery?category=construction"
+                        className="w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors"
+                        role="menuitem"
+                        onClick={() => setIsCategoriesOpen(false)}
+                      >
+                        Construction & Landscaping
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>
@@ -304,21 +298,23 @@ export function Header(): React.JSX.Element {
               </a>
             </nav>
 
-            <button 
+            <a 
+              href="#contact"
               className="hidden md:inline-flex items-center bg-primary text-white hover:bg-primary/90 transition-all duration-300 font-medium relative group px-6 py-2 text-base rounded-md cursor-pointer"
-              onClick={() => setIsQuoteModalOpen(true)}
+              onClick={(e) => {
+                e.preventDefault();
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               Get Quote
               <span className="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all duration-300 group-hover:w-full"></span>
-            </button>
+            </a>
           </div>
         </div>
       </header>
-
-      <QuoteModal 
-        isOpen={isQuoteModalOpen} 
-        onClose={() => setIsQuoteModalOpen(false)} 
-      />
 
       {/* Back to Top Button */}
       <div style={{
