@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+
 import { QuoteModal } from "./QuoteModal";
 
 export function ContactSection() {
@@ -99,20 +99,6 @@ export function ContactSection() {
                 </CardContent>
               </Card>
             ))}
-
-            {/* Location Image */}
-            <div className="relative rounded-2xl overflow-hidden shadow-lg">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1605216565436-b3fb0d96bb52?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXB1YSUyMG5ldyUyMGd1aW5lYSUyMHBvcnQlMjBtb3Jlc2J5JTIwY2l0eXxlbnwxfHx8fDE3NTg3Nzk4OTV8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Port Moresby Papua New Guinea"
-                className="w-full h-48 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
-              <div className="absolute bottom-4 left-4 text-white">
-                <p className="font-medium">Our Home Base</p>
-                <p className="text-sm opacity-90">Port Moresby, PNG</p>
-              </div>
-            </div>
           </div>
 
           {/* Contact Form */}
