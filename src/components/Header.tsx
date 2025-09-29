@@ -113,7 +113,16 @@ export function Header(): React.JSX.Element {
       >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center">
+            <Link 
+              to="/" 
+              className="flex items-center"
+              onClick={() => {
+                // If we're already on the home page, scroll to top
+                if (window.location.pathname === '/') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+            >
               <img 
                 src={logo} 
                 alt="GreenChem Logo" 
