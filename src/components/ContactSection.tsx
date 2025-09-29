@@ -68,9 +68,6 @@ export function ContactSection() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl mb-6">Contact Us</h2>
-          <p className="text-xl text-primary mb-4">
-            Ready to start your next project?
-          </p>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Get in touch with our team for consultation, project quotes, or emergency support. 
             We're here to help with all your environmental and construction needs.

@@ -1,39 +1,113 @@
-import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { QuoteModal } from "./QuoteModal";
 import logo from "../images/logo.png";
 
-export function Header() {
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [showScrollTop, setShowScrollTop] = useState(false);
+export function Header(): React.JSX.Element {
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
+  const [isServicesOpen, setIsServicesOpen] = useState<boolean>(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState<boolean>(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
+    let ticking = false;
     
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      console.log('Scroll:', { currentScrollY, lastScrollY, isVisible });
       
-      // Show/hide navbar based on scroll direction
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        console.log('Hiding navbar');
-        setIsVisible(false); // Hide when scrolling down
-      } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
-        console.log('Showing navbar');
-        setIsVisible(true); // Show when scrolling up or near top
+      // Update scroll position for scroll-to-top button
+      setShowScrollTop(currentScrollY > 300);
+      
+      // Skip if we're already processing a scroll event
+      if (ticking) return;
+      
+      window.requestAnimationFrame(() => {
+        // Always show header at the top of the page or when near top
+        if (currentScrollY < 50) {
+          setIsVisible(true);
+        } else {
+          // Show when scrolling up, hide when scrolling down
+          const scrollDiff = lastScrollY - currentScrollY;
+          
+          if (scrollDiff > 5) {
+            // Scrolling up
+            setIsVisible(true);
+          } else if (scrollDiff < -5) {
+            // Scrolling down
+            setIsVisible(false);
+          }
+        }
+        
+        lastScrollY = currentScrollY;
+        ticking = false;
+      });
+      
+      ticking = true;
+    };
+    
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
+  const toggleServices = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsServicesOpen(prev => !prev);
+    if (isCategoriesOpen) setIsCategoriesOpen(false);
+  };
+
+  const toggleCategories = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsCategoriesOpen(prev => !prev);
+    if (isServicesOpen) setIsServicesOpen(false);
+  };
+
+  const handleServiceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsServicesOpen(false);
+    const target = e.currentTarget.getAttribute('href');
+    if (target) {
+      const element = document.querySelector(target);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      
+      // Handle Services dropdown
+      if (servicesRef.current && 
+          !servicesRef.current.contains(target) && 
+          isServicesOpen) {
+        setIsServicesOpen(false);
       }
       
-      // Show/hide scroll to top button
-      setShowScrollTop(currentScrollY > 400);
-      
-      lastScrollY = currentScrollY;
+      // Handle Categories dropdown
+      if (categoriesRef.current && 
+          !categoriesRef.current.contains(target) && 
+          isCategoriesOpen) {
+        setIsCategoriesOpen(false);
+      }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isVisible]);
-
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isServicesOpen, isCategoriesOpen]);
+  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -43,57 +117,190 @@ export function Header() {
 
   return (
     <>
-      {/* Debug indicator */}
-      <div className="fixed top-20 right-4 z-50 bg-red-500 text-white p-2 rounded">
-        Visible: {isVisible.toString()}
-      </div>
-      
       <header 
-        className="border-b border-primary/20 bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-sm transition-transform duration-300"
+        className={`fixed top-0 left-0 w-full z-50 border-b border-primary/20 bg-white/95 backdrop-blur-md shadow-sm transition-transform duration-300 ${
+          isVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
         style={{
-          transform: isVisible ? 'translateY(0)' : 'translateY(-100%)'
+          transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s ease-in-out'
         }}
       >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
+            <Link to="/" className="flex items-center">
               <img 
                 src={logo} 
                 alt="GreenChem Logo" 
-                className="h-24 w-auto object-contain"
+                className="h-24 w-auto object-contain hover:opacity-90 transition-opacity"
               />
-            </div>
+            </Link>
             
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#home" className="text-foreground hover:text-primary transition-colors font-medium relative group">
+              <Link to="/#home" className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base">
                 Home
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
-              </a>
-              <a href="#water-chemical" className="text-foreground hover:text-primary transition-colors font-medium relative group">
-                Water & Chemical
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
-              </a>
-              <a href="#construction" className="text-foreground hover:text-primary transition-colors font-medium relative group">
-                Construction
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
-              </a>
-              <a href="#about" className="text-foreground hover:text-primary transition-colors font-medium relative group">
-                About
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
-              </a>
-              <a href="#contact" className="text-foreground hover:text-primary transition-colors font-medium relative group">
-                Contact
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
-              </a>
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              
+              <Link to="/#about" className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base">
+                About Us
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              
+              <Link to="/gallery" className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base">
+                Gallery
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              
+              <div className="relative" ref={servicesRef}>
+                <button 
+                  className="flex items-center text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
+                  onClick={toggleServices}
+                  aria-expanded={isServicesOpen}
+                  aria-haspopup="true"
+                  id="services-menu-button"
+                >
+                  Services
+                  <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  <svg 
+                    className={`w-4 h-4 ml-1 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isServicesOpen && (
+                <div 
+                  className="absolute left-0 mt-2 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100"
+                  style={{
+                    boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+                    width: 'auto',
+                    minWidth: '16rem'
+                  }}
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="services-menu-button"
+                >
+                  <a 
+                    href="#pest-control" 
+                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                    role="menuitem"
+                    onClick={handleServiceClick}
+                  >
+                    Pest Control
+                  </a>
+                  <a 
+                    href="#swimming-pool" 
+                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                    role="menuitem"
+                    onClick={handleServiceClick}
+                  >
+                    Swimming Pool
+                  </a>
+                  <a 
+                    href="#landscaping" 
+                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                    role="menuitem"
+                    onClick={handleServiceClick}
+                  >
+                    Landscaping
+                  </a>
+                  <a 
+                    href="#water-chemical" 
+                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                    role="menuitem"
+                    onClick={handleServiceClick}
+                  >
+                    Water & Chemical Solutions
+                  </a>
+                  <a 
+                    href="#construction" 
+                    className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                    role="menuitem"
+                    onClick={handleServiceClick}
+                  >
+                    Construction
+                  </a>
+                </div>
+                )}
+              </div>
+              
+              <div className="relative" ref={categoriesRef}>
+                <button 
+                  className="flex items-center text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
+                  onClick={toggleCategories}
+                  aria-expanded={isCategoriesOpen}
+                  aria-haspopup="true"
+                  id="categories-menu-button"
+                >
+                  Categories
+                  <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  <svg 
+                    className={`w-4 h-4 ml-1 transition-transform duration-200 ${isCategoriesOpen ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isCategoriesOpen && (
+                  <div 
+                    className="absolute left-0 mt-2 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100"
+                    style={{
+                      boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+                      width: 'auto',
+                      minWidth: '16rem'
+                    }}
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="categories-menu-button"
+                  >
+                    <a 
+                      href="#water-chemical" 
+                      className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                      role="menuitem"
+                      onClick={handleServiceClick}
+                    >
+                      Water & Chemical Solutions
+                    </a>
+                    <a 
+                      href="#construction" 
+                      className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                      role="menuitem"
+                      onClick={handleServiceClick}
+                    >
+                      Construction
+                    </a>
+                    <Link 
+                      to="/gallery" 
+                      className="block w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center"
+                      role="menuitem"
+                      onClick={handleServiceClick}
+                    >
+                      Gallery
+                    </Link>
+                  </div>
+                )}
+              </div>
+              
+              <Link to="/#contact" className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base">
+                Contact Us
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </Link>
             </nav>
 
-            <Button 
-              variant="default" 
-              className="hidden md:inline-flex shadow-lg hover:shadow-xl transition-shadow px-6 py-2"
+            <button 
+              className="hidden md:inline-flex items-center bg-primary text-white hover:bg-primary/90 transition-all duration-300 font-medium relative group px-6 py-2 text-base rounded-md cursor-pointer"
               onClick={() => setIsQuoteModalOpen(true)}
             >
               Get Quote
-            </Button>
+              <span className="absolute bottom-0 left-0 w-0 h-1 bg-white transition-all duration-300 group-hover:w-full"></span>
+            </button>
           </div>
         </div>
       </header>
@@ -103,28 +310,60 @@ export function Header() {
         onClose={() => setIsQuoteModalOpen(false)} 
       />
 
-      {/* Scroll to Top Button */}
-      {showScrollTop && (
+      {/* Back to Top Button */}
+      <div style={{
+        position: 'fixed',
+        right: '24px',
+        bottom: '24px',
+        zIndex: 50,
+        opacity: showScrollTop ? 1 : 0,
+        visibility: showScrollTop ? 'visible' : 'hidden',
+        transition: 'opacity 0.3s ease, visibility 0.3s ease'
+      }}>
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
-          aria-label="Scroll to top"
+          style={{
+            width: '50px',
+            height: '50px',
+            borderRadius: '50%',
+            backgroundColor: '#10B981',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: 'none',
+            cursor: 'pointer',
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+            transition: 'all 0.3s ease',
+            outline: 'none'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = '#059669';
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = '#10B981';
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+          }}
+          aria-label="Back to top"
         >
-          <svg 
-            className="w-6 h-6" 
-            fill="none" 
-            stroke="currentColor" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M5 10l7-7m0 0l7 7m-7-7v18" 
-            />
+            <path d="M18 15l-6-6-6 6" />
           </svg>
         </button>
-      )}
+      </div>
     </>
   );
 }

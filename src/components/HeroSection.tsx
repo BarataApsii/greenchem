@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { Button } from "./ui/button";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { QuoteModal } from "./QuoteModal";
@@ -14,10 +14,10 @@ export function HeroSection() {
           alt="Green Environmental Technology and Water Treatment"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/85 to-primary/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/70 to-primary/20"></div>
         
         {/* Additional overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/30"></div>
       </div>
 
       {/* Floating particles/dots for visual interest */}
@@ -37,10 +37,6 @@ export function HeroSection() {
             <h1 className="text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight">
               <span className="text-primary">Green</span> Solutions for a <span className="text-primary">Sustainable</span> Future
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
-              Leading Papua New Guinea's environmental initiatives through innovative water treatment, 
-              sustainable chemical solutions, and eco-friendly construction services.
-            </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20">
               <Button 
