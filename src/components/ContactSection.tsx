@@ -55,7 +55,7 @@ export function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-24 bg-muted/30 relative overflow-hidden">
+    <section id="contact" className="pt-16 pb-24 bg-muted/30 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{

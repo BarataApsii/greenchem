@@ -288,10 +288,20 @@ export function Header(): React.JSX.Element {
                 )}
               </div>
               
-              <Link to="/#contact" className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base">
+              <a 
+                href="#contact" 
+                className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 Contact Us
                 <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </Link>
+              </a>
             </nav>
 
             <button 
