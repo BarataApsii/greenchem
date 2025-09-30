@@ -118,6 +118,7 @@ export function Header(): React.JSX.Element {
             </Link>
             
             <nav className="hidden md:flex items-center space-x-8">
+              {/* Home - Navigates to the homepage and scrolls to top if already on home */}
               <Link 
                 to="/"
                 className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
@@ -132,6 +133,7 @@ export function Header(): React.JSX.Element {
                 <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
               
+              {/* About Us - Scrolls to the About section on the current page */}
               <a 
                 href="#about" 
                 className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
@@ -147,6 +149,7 @@ export function Header(): React.JSX.Element {
                 <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </a>
               
+              {/* Services - Dropdown menu showing service categories */}
               <div className="relative" ref={servicesRef}>
                 <button 
                   className="flex items-center text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
@@ -169,33 +172,93 @@ export function Header(): React.JSX.Element {
                 </button>
                 {isServicesOpen && (
                   <div 
-                    className="absolute left-0 mt-2 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100"
+                    className="absolute left-0 mt-2 bg-primary rounded-lg py-2 z-50 border border-primary/20"
                     style={{
-                      boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-                      width: 'auto',
+                      width: '300px',
+                      minWidth: '300px',
+                      boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
                     }}
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="services-menu-button"
                   >
-                    {[
-                      { id: 'water-chemical', label: 'Water & Chemical Solutions' },
-                      { id: 'construction', label: 'Construction' }
-                    ].map((service) => (
-                      <Link
-                        key={service.id}
-                        to={`/gallery?category=${service.id}`}
-                        className="w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors block"
-                        role="menuitem"
-                        onClick={() => setIsServicesOpen(false)}
-                      >
-                        {service.label}
-                      </Link>
-                    ))}
+                    <div className="flex flex-col">
+                      <div className="group relative">
+                        <a
+                          href="#water-chemical"
+                          className="relative flex items-center px-6 py-2.5 text-base font-normal"
+                          role="menuitem"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsServicesOpen(false);
+                            const element = document.getElementById('water-chemical');
+                            if (element) {
+                              window.scrollTo({
+                                top: element.offsetTop - 100, // Adjust offset as needed
+                                behavior: 'smooth'
+                              });
+                            }
+                          }}
+                          style={{
+                            color: 'white',
+                            textDecoration: 'none',
+                            transition: 'all 0.3s ease',
+                            backgroundColor: 'transparent',
+                            cursor: 'pointer'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.color = '#166534';
+                            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.color = 'white';
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                          }}
+                        >
+                          <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">Water & Chemical Solutions</span>
+                        </a>
+                      </div>
+                      <div className="group relative">
+                        <a
+                          href="#construction"
+                          className="relative flex items-center px-6 py-2.5 text-base font-normal"
+                          role="menuitem"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsServicesOpen(false);
+                            const element = document.getElementById('construction');
+                            if (element) {
+                              window.scrollTo({
+                                top: element.offsetTop - 100, // Adjust offset as needed
+                                behavior: 'smooth'
+                              });
+                            }
+                          }}
+                          style={{
+                            color: 'white',
+                            textDecoration: 'none',
+                            transition: 'all 0.3s ease',
+                            backgroundColor: 'transparent',
+                            cursor: 'pointer'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.color = '#166534';
+                            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.color = 'white';
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                          }}
+                        >
+                          <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">Construction</span>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
               
+              {/* Gallery - Navigates to the gallery page */}
               <Link 
                 to="/gallery"
                 className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
@@ -204,6 +267,7 @@ export function Header(): React.JSX.Element {
                 <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
               
+              {/* Contact Us - Scrolls to the contact section on the current page */}
               <a 
                 href="#contact" 
                 className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
@@ -220,6 +284,7 @@ export function Header(): React.JSX.Element {
               </a>
             </nav>
 
+            {/* Get Quote - CTA button that scrolls to the contact section */}
             <a 
               href="#contact"
               className="hidden md:inline-flex items-center bg-primary text-white hover:bg-primary/90 transition-all duration-300 font-medium relative group px-6 py-2 text-base rounded-md cursor-pointer"

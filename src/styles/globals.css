@@ -120,12 +120,27 @@
 }
 
 @layer base {
-  * {
+  *:not(.dropdown-item *) {
     @apply border-border outline-ring/50;
   }
 
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Prevent global link styles from affecting dropdown */
+  .dropdown-item,
+  .dropdown-item * {
+    color: inherit;
+    text-decoration: none;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .dropdown-item:hover,
+  .dropdown-item:hover * {
+    color: inherit;
+    background: transparent;
   }
 }
 
