@@ -43,10 +43,10 @@ export function HeroSection() {
               <span className="text-primary">Green</span> Solutions for a <span className="text-primary">Sustainable</span> Future
             </h1>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <div className="flex flex-row flex-wrap gap-3 sm:gap-4 justify-center items-center mb-12">
               <Button
                 size="lg"
-                className="px-8 py-6 text-lg shadow-lg hover:shadow-xl transition-shadow"
+                className="px-4 py-3 sm:px-6 sm:py-4 text-base sm:text-lg shadow-md hover:shadow-lg transition-shadow"
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Get a Quote
@@ -54,7 +54,7 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="px-8 py-6 text-lg border-2 hover:bg-primary/5"
+                className="px-4 py-3 sm:px-6 sm:py-4 text-base sm:text-lg border-2 hover:bg-primary/5"
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Explore Our Services
