@@ -1,19 +1,14 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
 // Import images directly from src directory
-import image01 from '../images/gallery/image-01.jpg';
 import image02 from '../images/gallery/image-02.jpg';
 import image03 from '../images/gallery/image-03.jpg';
-import image04 from '../images/gallery/image-04.jpg';
 import image06 from '../images/gallery/image-06.jpg';
 import image07 from '../images/gallery/image-07.jpg';
-import image08 from '../images/gallery/image-08.jpg';
 import image09 from '../images/gallery/image-09.jpg';
 import image10 from '../images/gallery/image-10.jpg';
-import image11 from '../images/gallery/image-11.jpg';
 import image12 from '../images/gallery/image-12.jpg';
 import image13 from '../images/gallery/image-13.jpg';
-import image14 from '../images/gallery/image-14.jpg';
 
 // Set app element for accessibility
 Modal.setAppElement('#root');
@@ -21,50 +16,29 @@ Modal.setAppElement('#root');
 interface GalleryImage {
   src: string;
   alt: string;
-  category: string;
 }
 
-interface GallerySectionProps {
-  category: string;
-}
-
-const galleryImages: GalleryImage[] = [
-  { src: image01, alt: 'Pest Control Service', category: 'pest-control' },
-  { src: image02, alt: 'Water Treatment', category: 'water-chemical' },
-  { src: image03, alt: 'Construction Site', category: 'construction' },
-  { src: image04, alt: 'Pest Inspection', category: 'pest-control' },
-  { src: image06, alt: 'Chemical Application', category: 'water-chemical' },
-  { src: image07, alt: 'Landscaping Work', category: 'construction' },
-  { src: image08, alt: 'Pest Treatment', category: 'pest-control' },
-  { src: image09, alt: 'Water Testing', category: 'water-chemical' },
-  { src: image10, alt: 'Construction Project', category: 'construction' },
-  { src: image11, alt: 'Pest Prevention', category: 'pest-control' },
-  { src: image12, alt: 'Chemical Storage', category: 'water-chemical' },
-  { src: image13, alt: 'Outdoor Landscaping', category: 'construction' },
-  { src: image14, alt: 'Pest Control Equipment', category: 'pest-control' }
+const galleryImages = [
+  { src: image02, alt: 'Water Treatment' },
+  { src: image03, alt: 'Construction Site' },
+  { src: image06, alt: 'Chemical Application' },
+  { src: image07, alt: 'Landscaping Work' },
+  { src: image09, alt: 'Water Testing' },
+  { src: image10, alt: 'Construction Project' },
+  { src: image12, alt: 'Chemical Storage' },
+  { src: image13, alt: 'Outdoor Landscaping' }
 ];
 
-export default function GallerySection({ category = 'all' }: GallerySectionProps) {
-  console.log('GallerySection rendered with category:', category);
-  
+export default function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const filteredImages = category === 'all' 
-    ? galleryImages 
-    : galleryImages.filter(img => img.category === category);
-
-  console.log('Filtered images count:', filteredImages.length);
-  console.log('All images:', galleryImages);
-
   const openModal = (image: GalleryImage) => {
-    console.log('Opening modal with image:', image);
     setSelectedImage(image);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    console.log('Closing modal');
     setIsModalOpen(false);
     setSelectedImage(null);
   };
@@ -73,7 +47,7 @@ export default function GallerySection({ category = 'all' }: GallerySectionProps
     <section className="py-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
-          {filteredImages.map((image, index) => (
+          {galleryImages.map((image, index) => (
             <div 
               key={index}
               className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 bg-white cursor-pointer"

@@ -17,29 +17,21 @@ export function AboutSection() {
         <div className="text-center mb-20">
           <h2 className="text-4xl lg:text-5xl mb-6 text-primary">About GreenChem</h2>
         </div>
-
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
           <div>
             <h3 className="text-3xl mb-6 text-primary">Our Story</h3>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                We are a competitive entity of the pest and termite control services based in Port Moresby, 
-                Papua New Guinea. GreenChem Ltd is a locally established family owned and operated business since 2011 based 
-                on the principles of providing outstanding service and quality guaranteed at the fairest price.
+                GreenChem Ltd is a locally established family owned and operated business based in Port Moresby, Papua New Guinea since 2011. We are committed to providing outstanding service and quality guaranteed at the fairest price.
               </p>
               <p>
-              Since then we have continued to grow and develop our approach focusing on quality oriented employees who have 
-              delivered with necessary pride and care to produce excellent results. GreenChem only uses 
-              CEPA (Conservation & Environmental Protection Agency) approved products. All our services are performed by highly
-               trained and certified technicians.
+              Since our establishment, we have continued to grow and develop our approach, focusing on quality-oriented employees who take pride in delivering excellent results. GreenChem only uses CEPA (Conservation & Environmental Protection Agency) approved products, and all our services are performed by highly trained and certified technicians.
               </p>
               <p>
-              Equipped with local knowledge and integrated modernized approach, our service boosts a customized professional 
-              approach for your unique needs.
+              Equipped with local knowledge and an integrated modernized approach, we provide customized professional solutions for your unique needs.
 
-              Today we are regarded as a key plant supplier, pool monitoring inspector and pest control fumigator to the city of 
-              Port Moresby and Papua New Guinea supporting the domestic, civil and commercial business functions.
+              Today, we are a trusted provider of water treatment and construction services in Port Moresby and throughout Papua New Guinea, supporting domestic, civil, and commercial business functions with our expertise in water solutions and construction services.
               </p>
             </div>
           </div>
@@ -47,7 +39,7 @@ export function AboutSection() {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1758518729685-f88df7890776?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB0ZWFtJTIwbWVldGluZyUyMG9mZmljZXxlbnwxfHx8fDE3NTg3MTA0NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                src="https://images.unsplash.com/photo-1758518729685-f88df7890776?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx8fDE3NTg3MTA0NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080"
                 alt="Professional team meeting"
                 className="w-full h-96 object-cover"
               />
@@ -62,7 +54,7 @@ export function AboutSection() {
         <div className="grid md:grid-cols-2 gap-8 mb-20">
           {/* Vision Card */}
           <div className="bg-card rounded-2xl p-8 shadow-lg border border-border bg-primary text-white">
-            <div className=" mb-4">
+            <div className="mb-4">
               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -71,9 +63,7 @@ export function AboutSection() {
             <h3 className="text-2xl font-semibold mb-4">Our Vision</h3>
             <div className="text-muted-foreground leading-relaxed space-y-4 text-white">
               <p>
-                As Papua New Guinea is rapidly advancing in terms of developments and projects- business wise, it is only just that by 
-                each advancement the engagement of an expert in pest management is convincingly compulsory, this is the vision which
-                 GreenChem Ltd shares with the government.
+                As Papua New Guinea advances in development and infrastructure projects, GreenChem Ltd is committed to providing expert water treatment and construction solutions. We envision being at the forefront of sustainable development, working hand-in-hand with government initiatives to build a better future for Papua New Guinea.
               </p>
             </div>
           </div>
@@ -88,11 +78,7 @@ export function AboutSection() {
             <h3 className="text-2xl font-semibold mb-4 text-white">Our Mission</h3>
             <div className="text-muted-foreground leading-relaxed space-y-4 text-white">
               <p>
-              GreenChem Ltd is determined to be the leader in pest management , working side-by-side with the 
-              Conser-vation & Environment Protection Authority [CEPA], Department of Agriculture & Livestock [DAL] , 
-              Civil Aviation Safety Authority PNG [CASA] and National Agriculture Quarantine & Inspection Authority [NAQIA] 
-              incorporating regulations and ensuring projects and developments adhere to these regulations with regards to chemical 
-              applications.
+              GreenChem Ltd is dedicated to being the leader in water treatment and construction services, working collaboratively with the Conservation & Environment Protection Authority [CEPA] and other regulatory bodies. We are committed to maintaining the highest standards in our operations, ensuring all projects adhere to environmental regulations and best practices in water management and construction.
               </p>
             </div>
           </div>

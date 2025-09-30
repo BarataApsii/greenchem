@@ -14,22 +14,6 @@ interface Service {
 
 const services: Service[] = [
   {
-    id: "pest-control",
-    title: "Pest Management",
-    icon: "🐜",
-    description: "Comprehensive pest control solutions for residential and commercial properties.",
-    features: [
-      "Termite Control & Prevention",
-      "Rodent & Wildlife Management",
-      "General Pest Control",
-      "Fumigation Services",
-      "Disinfection Services"
-    ],
-    bgColor: "bg-blue-50",
-    borderColor: "border-blue-200",
-    textColor: "text-blue-700"
-  },
-  {
     id: "water-chemical",
     title: "Water & Chemical Solutions",
     icon: "💧",

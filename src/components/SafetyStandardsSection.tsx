@@ -4,21 +4,21 @@ const standards = [
   {
     title: "Legislative Compliance",
     items: [
-      "Pest Management Act 2001 & Regulations 2003",
       "Work Health and Safety Act 2011",
       "Environment Protection and Biodiversity Conservation Act 1999",
+      "Water Management Act 2000",
       "Chemical Usage and Storage Compliance"
     ],
     icon: "📜",
     bgColor: "bg-blue-50"
   },
   {
-    title: "Australian Standards",
+    title: "Industry Standards",
     items: [
-      "AS 3660.1 – 2000: New Building Work",
-      "AS 3660.2 – 2000: Existing Buildings & Structures",
-      "AS 4349.3 – 1998: Timber Pest Inspections",
-      "AS 3660.3 – 2000: Termite Management Systems"
+      "AS/NZS 3500: Water Services",
+      "AS 4020: Testing of Waters",
+      "AS/NZS 3000: Electrical Installations",
+      "AS 3600: Concrete Structures"
     ],
     icon: "🏛️",
     bgColor: "bg-green-50"
@@ -26,10 +26,10 @@ const standards = [
   {
     title: "Professional Training & Certifications",
     items: [
-      "Medical Entomology Master Class - James Cook University",
-      "Mosquito Control Training (MCAA)",
-      "Certified Pest Management Technician (CPMT)",
-      "Aerial Application Accreditation"
+      "Water Treatment Plant Operator Certification",
+      "Construction Safety Training",
+      "Project Management Professional (PMP)",
+      "First Aid & CPR Certified"
     ],
     icon: "🎓",
     bgColor: "bg-purple-50"
@@ -37,10 +37,10 @@ const standards = [
   {
     title: "Environmental Stewardship",
     items: [
-      "Integrated Pest Management (IPM) Certified",
-      "Eco-friendly Treatment Solutions",
-      "Wildlife and Habitat Protection",
-      "Sustainable Pest Control Practices"
+      "Sustainable Water Management",
+      "Eco-friendly Construction Practices",
+      "Waste Reduction Initiatives",
+      "Energy Efficient Solutions"
     ],
     icon: "🌱",
     bgColor: "bg-yellow-50"

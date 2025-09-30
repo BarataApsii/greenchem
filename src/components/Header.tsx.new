@@ -6,7 +6,9 @@ export function Header(): React.JSX.Element {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [isServicesOpen, setIsServicesOpen] = useState<boolean>(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState<boolean>(false);
   const servicesRef = useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -58,9 +60,15 @@ export function Header(): React.JSX.Element {
   
   const toggleServices = () => {
     setIsServicesOpen(!isServicesOpen);
+    if (isCategoriesOpen) setIsCategoriesOpen(false);
   };
 
-  // Close dropdown when clicking outside
+  const toggleCategories = () => {
+    setIsCategoriesOpen(!isCategoriesOpen);
+    if (isServicesOpen) setIsServicesOpen(false);
+  };
+
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -72,13 +80,19 @@ export function Header(): React.JSX.Element {
         setIsServicesOpen(false);
       }
       
+      // Handle Categories dropdown
+      if (categoriesRef.current && 
+          !categoriesRef.current.contains(target) && 
+          isCategoriesOpen) {
+        setIsCategoriesOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isServicesOpen]);
+  }, [isServicesOpen, isCategoriesOpen]);
   
   const scrollToTop = () => {
     window.scrollTo({
@@ -179,6 +193,8 @@ export function Header(): React.JSX.Element {
                     aria-labelledby="services-menu-button"
                   >
                     {[
+                      { id: 'swimming-pool', label: 'Swimming Pool' },
+                      { id: 'landscaping', label: 'Landscaping' },
                       { id: 'water-chemical', label: 'Water & Chemical Solutions' },
                       { id: 'construction', label: 'Construction' }
                     ].map((service) => (
@@ -196,13 +212,63 @@ export function Header(): React.JSX.Element {
                 )}
               </div>
               
-              <Link 
-                to="/gallery"
-                className="text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
-              >
-                Gallery
-                <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </Link>
+              <div className="relative" ref={categoriesRef}>
+                <button 
+                  className="flex items-center text-foreground hover:text-primary transition-all duration-300 font-medium relative group px-3 py-2 text-base"
+                  onClick={toggleCategories}
+                  aria-expanded={isCategoriesOpen}
+                  aria-haspopup="true"
+                  id="categories-menu-button"
+                >
+                  Gallery
+                  <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  <svg 
+                    className={`w-4 h-4 ml-1 transition-transform duration-200 ${isCategoriesOpen ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isCategoriesOpen && (
+                  <div 
+                    className="absolute left-0 mt-2 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100 w-64"
+                    style={{
+                      boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)'
+                    }}
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="categories-menu-button"
+                  >
+                    <Link
+                      to="/gallery"
+                      className="w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors block"
+                      role="menuitem"
+                      onClick={() => setIsCategoriesOpen(false)}
+                    >
+                      All Categories
+                    </Link>
+                    <Link
+                      to="/gallery?category=water-chemical"
+                      className="w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors block"
+                      role="menuitem"
+                      onClick={() => setIsCategoriesOpen(false)}
+                    >
+                      Water & Chemical
+                    </Link>
+                    <Link
+                      to="/gallery?category=construction"
+                      className="w-full text-left px-6 py-2.5 text-base font-normal text-foreground hover:bg-gray-50 hover:text-primary transition-colors block"
+                      role="menuitem"
+                      onClick={() => setIsCategoriesOpen(false)}
+                    >
+                      Construction & Landscaping
+                    </Link>
+                  </div>
+                )}
+              </div>
               
               <a 
                 href="#contact" 
