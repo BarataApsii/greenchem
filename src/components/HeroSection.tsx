@@ -39,14 +39,14 @@ export function HeroSection() {
       <div className="relative z-10 w-full">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl mb-16 md:mb-20 lg:mb-24 leading-tight">
               <span className="text-primary">Green</span> Solutions for a <span className="text-primary">Sustainable</span> Future
             </h1>
 
-            <div className="flex flex-row flex-wrap gap-3 sm:gap-4 justify-center items-center mb-12">
+            <div className="flex flex-row flex-wrap gap-2 sm:gap-4 justify-center items-center mb-12">
               <Button
                 size="lg"
-                className="px-4 py-3 sm:px-6 sm:py-4 text-base sm:text-lg shadow-md hover:shadow-lg transition-shadow"
+                className="px-3 py-2 sm:px-8 sm:py-5 text-sm sm:text-lg shadow-md hover:shadow-lg transition-shadow"
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Get a Quote
@@ -54,10 +54,10 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="px-4 py-3 sm:px-6 sm:py-4 text-base sm:text-lg border-2 hover:bg-primary/5"
+                className="px-3 py-2 sm:px-8 sm:py-5 text-sm sm:text-lg border-2 hover:bg-primary/5"
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Explore Our Services
+                Explore Services
               </Button>
             </div>
           </div>
