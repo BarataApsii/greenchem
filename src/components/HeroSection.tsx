@@ -5,9 +5,16 @@ import { QuoteModal } from "./QuoteModal";
 
 export function HeroSection() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  
+
+  // Header height - adjusted for better spacing
+  const headerHeight = 120; // Reduced to 120px
+
   return (
-    <section id="home" className="relative overflow-hidden">
+    <section
+      id="home"
+      className="relative overflow-hidden flex items-center justify-center min-h-screen"
+      style={{ paddingTop: `${headerHeight}px` }} // push content below fixed header
+    >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <ImageWithFallback
@@ -19,34 +26,34 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/30"></div>
       </div>
 
-      {/* Floating particles/dots for visual interest */}
+      {/* Floating particles/dots */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-2 h-2 bg-primary/30 rounded-full animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-3 h-3 bg-primary/20 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-60 left-1/4 w-1.5 h-1.5 bg-primary/40 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-40 right-1/3 w-2.5 h-2.5 bg-primary/25 rounded-full animate-pulse" style={{animationDelay: '3s'}}></div>
-        <div className="absolute bottom-60 left-16 w-2 h-2 bg-primary/35 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute top-40 right-20 w-3 h-3 bg-primary/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-60 left-1/4 w-1.5 h-1.5 bg-primary/40 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-40 right-1/3 w-2.5 h-2.5 bg-primary/25 rounded-full animate-pulse" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-60 left-16 w-2 h-2 bg-primary/35 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
       </div>
 
       {/* Content */}
-      <div className="relative py-32 lg:py-40">
+      <div className="relative z-10 w-full">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight">
               <span className="text-primary">Green</span> Solutions for a <span className="text-primary">Sustainable</span> Future
             </h1>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="px-8 py-6 text-lg shadow-lg hover:shadow-xl transition-shadow"
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Get a Quote
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
+              <Button
+                variant="outline"
+                size="lg"
                 className="px-8 py-6 text-lg border-2 hover:bg-primary/5"
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
@@ -57,9 +64,9 @@ export function HeroSection() {
         </div>
       </div>
 
-      <QuoteModal 
-        isOpen={isQuoteModalOpen} 
-        onClose={() => setIsQuoteModalOpen(false)} 
+      <QuoteModal
+        isOpen={isQuoteModalOpen}
+        onClose={() => setIsQuoteModalOpen(false)}
       />
     </section>
   );
