@@ -12,41 +12,32 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden flex items-center justify-center min-h-screen"
-      style={{ paddingTop: `${headerHeight}px` }} // push content below fixed header
+      className="relative min-h-screen flex items-center justify-center"
+      style={{ paddingTop: `${headerHeight}px` }}
     >
-      {/* Background Image with Overlay */}
+      {/* Background Image with reduced opacity */}
       <div className="absolute inset-0">
         <ImageWithFallback
           src="https://images.unsplash.com/photo-1643578107090-17ad301b1b97?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmVlbiUyMGVudmlyb25tZW50YWwlMjB0ZWNobm9sb2d5JTIwd2F0ZXIlMjB0cmVhdG1lbnR8ZW58MXx8fHwxNzU4NzgwMjY5fDA&ixlib=rb-4.1.0&q=80&w=1080"
           alt="Green Environmental Technology and Water Treatment"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-80"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/70 to-primary/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/30"></div>
       </div>
 
-      {/* Floating particles/dots */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-2 h-2 bg-primary/30 rounded-full animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-3 h-3 bg-primary/20 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-60 left-1/4 w-1.5 h-1.5 bg-primary/40 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-40 right-1/3 w-2.5 h-2.5 bg-primary/25 rounded-full animate-pulse" style={{ animationDelay: '3s' }}></div>
-        <div className="absolute bottom-60 left-16 w-2 h-2 bg-primary/35 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 w-full">
+      {/* Content - Ensured to be on top */}
+      <div className="relative z-20 w-full h-full flex items-center justify-center">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl mb-16 md:mb-20 lg:mb-24 leading-tight">
-              <span className="text-primary">Green</span> Solutions for a <span className="text-primary">Sustainable</span> Future
+            <h1 className="text-4xl md:text-6xl lg:text-7xl mb-8 md:mb-12 lg:mb-16 leading-tight p-6 rounded-lg inline-block" style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.6)'
+            }}>
+              <span className="text-primary">Green</span> <span className='text-white'>Solutions for a</span> <span className="text-primary">Sustainable</span> <span className='text-white'>Future</span>
             </h1>
 
             <div className="flex flex-row flex-wrap gap-2 sm:gap-4 justify-center items-center mb-12">
               <Button
                 size="lg"
-                className="px-3 py-2 sm:px-8 sm:py-5 text-sm sm:text-lg shadow-md hover:shadow-lg transition-shadow"
+                className="px-6 py-3 text-base sm:px-10 sm:py-4 sm:text-xl lg:px-12 lg:py-5 lg:text-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Get a Quote
@@ -54,7 +45,7 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="px-3 py-2 sm:px-8 sm:py-5 text-sm sm:text-lg border-2 hover:bg-primary/5"
+                className="px-6 py-3 text-base sm:px-10 sm:py-4 sm:text-xl lg:px-12 lg:py-5 lg:text-2xl border-2 border-white hover:bg-white/10 transition-all duration-300 transform hover:scale-105"
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Explore Services
