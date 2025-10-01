@@ -259,20 +259,31 @@ export function Header(): React.JSX.Element {
       >
         <button
           onClick={scrollToTop}
+          aria-label="Back to top"
+          className="group"
           style={{
-            width: "50px",
-            height: "50px",
+            width: "44px",
+            height: "44px",
             borderRadius: "50%",
             backgroundColor: "#10B981",
             color: "white",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            border: "none",
+            border: "2px solid white",
             cursor: "pointer",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "all 0.2s ease-in-out",
           }}
         >
-          ↑
+          <span 
+            className="text-2xl font-bold group-hover:-translate-y-0.5 transition-transform"
+            style={{
+              display: "inline-block"
+            }}
+          >
+            ↑
+          </span>
         </button>
       </div>
       {/* --- Back to Top Button END --- */}
