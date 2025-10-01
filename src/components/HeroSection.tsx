@@ -7,12 +7,12 @@ export function HeroSection() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   // Header height for spacing
-  const headerHeight = 120;
+  const headerHeight = 400;
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center"
+      className="relative min-h-[80vh] flex items-start pt-32 justify-center"
       style={{ paddingTop: `${headerHeight}px` }}
     >
       {/* --- Background Image START --- */}
@@ -28,13 +28,13 @@ export function HeroSection() {
       {/* --- Background Image END --- */}
 
       {/* --- Content START --- */}
-      <div className="relative z-20 w-full flex items-center justify-center">
+      <div className="relative z-20 w-full flex items-center justify-center -mt-8 sm:mt-0">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
 
             {/* --- Hero Title START --- */}
             <h1
-              className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl mb-8 leading-tight px-2 py-2 sm:px-6 sm:py-3 rounded-lg inline-block"
+              className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl mb-16 leading-tight px-2 py-2 sm:px-6 sm:py-3 rounded-lg inline-block"
               style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
             >
               <span className="text-primary">Green</span>{" "}

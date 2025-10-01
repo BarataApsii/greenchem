@@ -3,7 +3,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 export function AboutSection() {
 
   return (
-    <section id="about" className="py-24 bg-background relative overflow-hidden">
+    <section id="about" className="pt-16 pb-24 bg-background relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -14,11 +14,11 @@ export function AboutSection() {
 
       <div className="container mx-auto px-6 relative">
         {/* Header */}
-        <div className="text-center mb-20">
-          <h2 className="text-4xl lg:text-5xl mb-6 text-primary">About GreenChem</h2>
+        <div className="text-center mb-auto">
+          <h2 className="text-4xl lg:text-5xl mb-auto text-primary">About GreenChem</h2>
         </div>
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
           <div>
             <h3 className="text-3xl mb-6 text-primary">Our Story</h3>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
