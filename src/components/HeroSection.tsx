@@ -43,17 +43,20 @@ export function HeroSection({
       {/* --- Background Image END --- */}
 
       {/* --- Content START --- */}
-      <div className="relative z-20 w-full flex items-center justify-center -mt-8 sm:mt-0">
+      <div className="relative z-20 w-full flex flex-col items-center justify-center -mt-8 sm:mt-0">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-            {title}
-          </h1>
-          <p className="text-lg md:text-xl text-gray-100 mb-8 max-w-2xl mx-auto">
-            {subtitle}
-          </p>
+          {/* Text Content with Semi-Transparent Background */}
+          <div className="bg-black/40 inline-block px-8 py-6 rounded-lg mb-8">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+              {title}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-100 max-w-2xl mx-auto">
+              {subtitle}
+            </p>
+          </div>
 
           {/* --- CTA Buttons START --- */}
-          <div className="flex flex-row flex-wrap gap-4 justify-center items-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a 
               href={ctaLink}
               className="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg rounded-md font-medium transition-colors"
