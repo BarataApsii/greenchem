@@ -12,29 +12,28 @@ import ConstructionSection from "./components/services/ConstructionSection";
 function Home() {
   return (
     <div className="space-y-0">
+      {/* Hero Section - No top padding as it's full height */}
       <section className="relative">
         <HeroSection 
           title="Green Environmental Solutions"
-          subtitle="Innovative and sustainable solutions for water treatment, chemical management, and environmental conservation."
           ctaText="Get a Free Quote"
           ctaLink="/#contact"
         />
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-white">
-        <AboutSection />
+      <section id="about" className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <AboutSection />
+        </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-gray-50">
+      <section id="services" className="pt-16 pb-24 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
-            <div className="w-20 h-1 bg-teal-600 mx-auto mb-6"></div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Comprehensive solutions tailored to meet your specific needs
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Our Services</h2>
+            <div className="w-20 h-1 bg-teal-600 mx-auto"></div>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -49,14 +48,14 @@ function Home() {
       </section>
 
       {/* Safety Standards Section */}
-      <section id="safety" className="py-20 bg-white">
+      <section id="safety" className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <SafetyStandardsSection />
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gray-50">
+      <section id="contact" className="pt-16 pb-24 bg-gray-50">
         <div className="container mx-auto px-4">
           <ContactSection />
         </div>

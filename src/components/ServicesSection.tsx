@@ -73,19 +73,27 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   const filteredServices = filter ? services.filter(service => service.category === filter) : services;
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">{title}</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">{title}</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">{subtitle}</p>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {filteredServices.map((service) => (
-            <div key={service.id} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">{service.icon}</div>
-              <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-              <p className="text-gray-600">{service.description}</p>
+            <div 
+              key={service.id} 
+              className={`p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1
+                ${service.category === 'water-chemical' 
+                  ? 'bg-gradient-to-br from-green-50 to-green-100 border-l-4 border-green-400' 
+                  : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-l-4 border-emerald-400'}`}
+            >
+              <div className={`text-5xl mb-4 ${service.category === 'water-chemical' ? 'text-green-500' : 'text-emerald-500'}`}>
+                {service.icon}
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-800">{service.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{service.description}</p>
             </div>
           ))}
         </div>
@@ -93,7 +101,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
         <div className="text-center">
           <a
             href={ctaLink}
-            className="inline-block bg-primary text-white px-8 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+            className="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-300 hover:shadow-lg"
           >
             {ctaText}
           </a>

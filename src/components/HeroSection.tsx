@@ -5,7 +5,7 @@ import { QuoteModal } from "./QuoteModal";
 
 interface HeroSectionProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   ctaText: string;
   ctaLink: string;
   backgroundImage?: string;
@@ -14,7 +14,6 @@ interface HeroSectionProps {
 
 export function HeroSection({ 
   title, 
-  subtitle, 
   ctaText, 
   ctaLink, 
   showSecondaryButton = true,
@@ -47,19 +46,21 @@ export function HeroSection({
         <div className="container mx-auto px-6 text-center">
           {/* Text Content with Semi-Transparent Background */}
           <div className="bg-black/40 inline-block px-8 py-6 rounded-lg mb-8">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              {title}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-center">
+              <div className="mb-2">
+                <span className="text-green-500">Green</span> <span className="text-white">Environmental,</span>
+              </div>
+              <div className="text-white">
+                Chemical & Construction Solutions
+              </div>
             </h1>
-            <p className="text-lg md:text-xl text-gray-100 max-w-2xl mx-auto">
-              {subtitle}
-            </p>
           </div>
 
           {/* --- CTA Buttons START --- */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
             <a 
               href={ctaLink}
-              className="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg rounded-md font-medium transition-colors"
+              className="w-full sm:w-auto text-center bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg sm:px-12 sm:py-5 sm:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-transparent"
             >
               {ctaText}
             </a>
@@ -67,7 +68,7 @@ export function HeroSection({
             {showSecondaryButton && (
               <Button 
                 variant="outline"
-                className="px-6 py-3 text-base sm:px-10 sm:py-4 sm:text-xl lg:px-12 lg:py-5 lg:text-2xl border-2 border-white hover:bg-white/10 text-white transition-all duration-300 transform hover:scale-105"
+                className="w-full sm:w-auto text-center px-8 py-4 text-lg sm:px-12 sm:py-5 sm:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold border-2 border-white hover:bg-white/10 text-primary transition-all duration-300 transform hover:scale-105"
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Our Services

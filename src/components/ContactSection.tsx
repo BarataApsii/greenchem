@@ -74,31 +74,37 @@ export function ContactSection() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-12 mb-16">
-          {/* Contact Information Cards */}
-          <div className="lg:col-span-1 space-y-6">
-            {contactInfo.map((info, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center space-x-3 mb-2">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center text-white">
-                      {info.icon}
+        <div className="grid lg:grid-cols-3 gap-12 mb-16 items-stretch">
+          {/* Contact Information Card */}
+          <div className="lg:col-span-1">
+            <Card className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm h-full">
+              <CardHeader className="pb-2 px-6 pt-6">
+                <h3 className="text-xl font-semibold text-gray-900">Contact Information</h3>
+                <p className="text-sm text-muted-foreground">Reach out to us through any of these channels</p>
+              </CardHeader>
+              <CardContent className="px-6 pb-6 space-y-6">
+                {contactInfo.map((info, index) => (
+                  <div key={index} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center text-white flex-shrink-0">
+                        {info.icon}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-base font-medium text-gray-900 mb-1">{info.title}</h4>
+                        <div className="space-y-1">
+                          {info.details.map((detail, detailIndex) => (
+                            <p key={detailIndex} className="text-sm text-gray-600">
+                              {detail}
+                            </p>
+                          ))}
+                        </div>
+                        <p className="text-xs text-primary font-medium mt-2">{info.hours}</p>
+                      </div>
                     </div>
-                    <CardTitle className="text-xl">{info.title}</CardTitle>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2 mb-4">
-                    {info.details.map((detail, detailIndex) => (
-                      <p key={detailIndex} className="text-muted-foreground">
-                        {detail}
-                      </p>
-                    ))}
-                  </div>
-                  <p className="text-sm text-primary font-medium">{info.hours}</p>
-                </CardContent>
-              </Card>
-            ))}
+                ))}
+              </CardContent>
+            </Card>
           </div>
 
           {/* Contact Form */}
