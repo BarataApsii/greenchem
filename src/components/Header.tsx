@@ -41,8 +41,21 @@ export function Header() {
   }, []);
 
   // --- Dropdown + Mobile menu toggle handlers ---
-  const toggleServices = () => setIsServicesOpen(!isServicesOpen);
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleServices = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    setIsServicesOpen(prev => !prev);
+  };
+  
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(prev => !prev);
+    // Close services dropdown when mobile menu is closed
+    if (isMobileMenuOpen) {
+      setIsServicesOpen(false);
+    }
+  };
 
   // --- Close dropdown when clicking outside ---
   useEffect(() => {
@@ -140,12 +153,13 @@ export function Header() {
                   </svg>
                 </button>
                 {isServicesOpen && (
-                  <div className="absolute left-0 mt-1 bg-primary rounded-lg z-50 w-[48rem] shadow-lg">
-                    <div className="grid grid-cols-2 gap-0">
+                  <div className="absolute left-0 mt-1 bg-primary rounded-lg z-50 w-72 shadow-lg">
+                    <div className="flex flex-col">
                       <Link 
                         to="/#water-chemical" 
-                        className="block px-6 py-2 text-white hover:bg-white/10 transition-colors duration-200"
+                        className="block px-6 py-3 text-white hover:bg-white/10 transition-colors duration-200 text-left"
                         onClick={(e) => {
+                          setIsServicesOpen(false);
                           if (window.location.pathname === '/') {
                             e.preventDefault();
                             const section = document.getElementById('water-chemical');
@@ -155,14 +169,16 @@ export function Header() {
                           }
                         }}
                       >
-                        <div className="flex items-center whitespace-nowrap">
+                        <div className="flex items-center">
                           <span>Water & Chemical Solutions</span>
                         </div>
                       </Link>
+                      <div className="border-t border-white/10"></div>
                       <Link 
                         to="/#construction" 
-                        className="block px-6 py-2 text-white hover:bg-white/10 transition-colors duration-200"
+                        className="block px-6 py-3 text-white hover:bg-white/10 transition-colors duration-200 text-left"
                         onClick={(e) => {
+                          setIsServicesOpen(false);
                           if (window.location.pathname === '/') {
                             e.preventDefault();
                             const section = document.getElementById('construction');
@@ -283,11 +299,10 @@ export function Header() {
               <div className="w-full">
                 <div className="border-b border-gray-200">
                   <button 
-                    onClick={() => {
-                      toggleServices();
-                      toggleMobileMenu();
-                    }}
+                    onClick={toggleServices}
                     className="w-full flex justify-between items-center py-2 text-left"
+                    aria-expanded={isServicesOpen}
+                    aria-controls="mobile-services-dropdown"
                   >
                     <span>Services</span>
                     <svg 
@@ -295,6 +310,7 @@ export function Header() {
                       fill="none" 
                       stroke="currentColor" 
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>

@@ -68,10 +68,10 @@ export function HeroSection({
             {showSecondaryButton && (
               <Button 
                 variant="outline"
-                className="w-full sm:w-auto text-center px-8 py-4 text-lg sm:px-12 sm:py-5 sm:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold border-2 border-white hover:bg-white/10 text-primary transition-all duration-300 transform hover:scale-105"
-                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                className="w-full sm:w-auto text-center bg-white hover:bg-gray-100 text-primary px-8 py-4 text-lg sm:px-12 sm:py-5 sm:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-primary hover:border-primary/80"
+                onClick={() => setIsQuoteModalOpen(true)}
               >
-                Our Services
+                Request Quote
               </Button>
             )}
           </div>

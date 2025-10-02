@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -72,6 +73,18 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
 }) => {
   const filteredServices = filter ? services.filter(service => service.category === filter) : services;
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleServiceSelect = (service: Service) => {
+    setSelectedService(service);
+    setIsOpen(false);
+  };
+
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-4">
@@ -80,7 +93,53 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">{subtitle}</p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        {/* Mobile Dropdown */}
+        <div className="md:hidden mb-8 relative">
+          <button
+            onClick={toggleDropdown}
+            className="w-full flex justify-between items-center px-6 py-4 bg-white border border-gray-300 rounded-lg shadow-sm text-left focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+          >
+            <span className="text-gray-700">
+              {selectedService ? selectedService.title : 'Select a service'}
+            </span>
+            {isOpen ? <ChevronUp className="h-5 w-5 text-gray-500" /> : <ChevronDown className="h-5 w-5 text-gray-500" />}
+          </button>
+          
+          {isOpen && (
+            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+              {filteredServices.map((service) => (
+                <div
+                  key={service.id}
+                  onClick={() => handleServiceSelect(service)}
+                  className="px-6 py-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0"
+                >
+                  <div className="flex items-center">
+                    <span className="text-xl mr-3">{service.icon}</span>
+                    <span className="text-gray-800">{service.title}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {/* Selected Service Details */}
+          {selectedService && (
+            <div className={`mt-4 p-6 rounded-xl shadow-md ${
+              selectedService.category === 'water-chemical' 
+                ? 'bg-gradient-to-br from-green-50 to-green-100 border-l-4 border-green-400' 
+                : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-l-4 border-emerald-400'
+            }`}>
+              <div className={`text-5xl mb-4 ${selectedService.category === 'water-chemical' ? 'text-green-500' : 'text-emerald-500'}`}>
+                {selectedService.icon}
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-800">{selectedService.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{selectedService.description}</p>
+            </div>
+          )}
+        </div>
+        
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {filteredServices.map((service) => (
             <div 
               key={service.id} 
