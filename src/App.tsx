@@ -12,9 +12,13 @@ import ConstructionSection from "./components/services/ConstructionSection";
 function Home() {
   return (
     <div className="space-y-0">
-      {/* Hero Section */}
       <section className="relative">
-        <HeroSection />
+        <HeroSection 
+          title="Green Environmental Solutions"
+          subtitle="Innovative and sustainable solutions for water treatment, chemical management, and environmental conservation."
+          ctaText="Get a Free Quote"
+          ctaLink="/#contact"
+        />
       </section>
 
       {/* About Section */}
