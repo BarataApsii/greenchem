@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
 
-export function Header(): React.JSX.Element {
+export function Header() {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [isServicesOpen, setIsServicesOpen] = useState<boolean>(false);
@@ -69,13 +69,13 @@ export function Header(): React.JSX.Element {
       >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            
             {/* --- Logo START --- */}
             <Link
               to="/"
               className="flex items-center"
-              onClick={() => {
+              onClick={(e) => {
                 if (window.location.pathname === "/") {
+                  e.preventDefault();
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}
@@ -90,13 +90,36 @@ export function Header(): React.JSX.Element {
 
             {/* --- Desktop Navigation START --- */}
             <nav className="hidden md:flex items-center space-x-8">
-              <Link to="/" className="text-foreground hover:text-primary relative group px-3 py-2 text-base">
+              <Link
+                to="/"
+                className="text-foreground hover:text-primary relative group px-3 py-2 text-base"
+                onClick={(e) => {
+                  if (window.location.pathname === "/") {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                }}
+              >
                 Home
                 <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary group-hover:w-full transition-all duration-300"></span>
               </Link>
-              <a href="#about" className="text-foreground hover:text-primary relative group px-3 py-2 text-base">
+
+              <Link 
+                to="/#about" 
+                className="text-foreground hover:text-primary relative group px-3 py-2 text-base"
+                onClick={(e) => {
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    const aboutSection = document.getElementById('about');
+                    if (aboutSection) {
+                      aboutSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+              >
                 About Us
-              </a>
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-primary group-hover:w-full transition-all duration-300"></span>
+              </Link>
 
               {/* --- Desktop Services Dropdown START --- */}
               <div className="relative" ref={servicesRef}>
@@ -117,34 +140,89 @@ export function Header(): React.JSX.Element {
                   </svg>
                 </button>
                 {isServicesOpen && (
-                  <div className="absolute left-0 mt-2 bg-primary rounded-lg py-2 z-50 w-72">
-                    <a href="#water-chemical" className="block px-6 py-2 text-white hover:bg-white/10">
-                      Water & Chemical Solutions
-                    </a>
-                    <a href="#construction" className="block px-6 py-2 text-white hover:bg-white/10">
-                      Construction
-                    </a>
+                  <div className="absolute left-0 mt-1 bg-primary rounded-lg z-50 w-[48rem] shadow-lg">
+                    <div className="grid grid-cols-2 gap-0">
+                      <Link 
+                        to="/#water-chemical" 
+                        className="block px-6 py-2 text-white hover:bg-white/10 transition-colors duration-200"
+                        onClick={(e) => {
+                          if (window.location.pathname === '/') {
+                            e.preventDefault();
+                            const section = document.getElementById('water-chemical');
+                            if (section) {
+                              section.scrollIntoView({ behavior: 'smooth' });
+                            }
+                          }
+                        }}
+                      >
+                        <div className="flex items-center whitespace-nowrap">
+                          <span>Water & Chemical Solutions</span>
+                        </div>
+                      </Link>
+                      <Link 
+                        to="/#construction" 
+                        className="block px-6 py-2 text-white hover:bg-white/10 transition-colors duration-200"
+                        onClick={(e) => {
+                          if (window.location.pathname === '/') {
+                            e.preventDefault();
+                            const section = document.getElementById('construction');
+                            if (section) {
+                              section.scrollIntoView({ behavior: 'smooth' });
+                            }
+                          }
+                        }}
+                      >
+                        <div className="flex items-center">
+                          <span>Construction</span>
+                        </div>
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>
               {/* --- Desktop Services Dropdown END --- */}
 
-              <Link to="/gallery" className="text-foreground hover:text-primary relative group px-3 py-2 text-base">
+              <Link 
+                to="/gallery" 
+                className="text-foreground hover:text-primary relative group px-3 py-2 text-base"
+              >
                 Gallery
               </Link>
-              <a href="#contact" className="text-foreground hover:text-primary px-3 py-2 text-base">
+
+              <Link 
+                to="/#contact" 
+                className="text-foreground hover:text-primary px-3 py-2 text-base"
+                onClick={(e) => {
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+              >
                 Contact Us
-              </a>
+              </Link>
             </nav>
             {/* --- Desktop Navigation END --- */}
 
             {/* --- CTA Button (Desktop Only) START --- */}
-            <a
-              href="#contact"
+            <Link
+              to="/#contact"
               className="hidden md:inline-flex items-center bg-primary text-white hover:bg-primary/90 transition-all duration-300 font-medium px-6 py-2 text-base rounded-md"
+              onClick={(e) => {
+                if (window.location.pathname === '/') {
+                  e.preventDefault();
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }
+              }}
             >
               Get Quote
-            </a>
+            </Link>
             {/* --- CTA Button END --- */}
 
             {/* --- Mobile Hamburger Button START --- */}
@@ -173,18 +251,42 @@ export function Header(): React.JSX.Element {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white shadow-lg">
             <div className="flex flex-col space-y-2 px-6 py-4">
-              <Link to="/" className="py-2 border-b border-gray-200" onClick={toggleMobileMenu}>
+              <Link 
+                to="/" 
+                className="py-2 border-b border-gray-200"
+                onClick={() => {
+                  toggleMobileMenu();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
                 Home
               </Link>
-              <a href="#about" className="py-2 border-b border-gray-200" onClick={toggleMobileMenu}>
+              
+              <Link 
+                to="/#about"
+                className="py-2 border-b border-gray-200 block"
+                onClick={(e) => {
+                  toggleMobileMenu();
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    const aboutSection = document.getElementById('about');
+                    if (aboutSection) {
+                      aboutSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+              >
                 About Us
-              </a>
+              </Link>
 
               {/* --- Mobile Services Dropdown START --- */}
               <div className="w-full">
                 <div className="border-b border-gray-200">
                   <button 
-                    onClick={toggleServices}
+                    onClick={() => {
+                      toggleServices();
+                      toggleMobileMenu();
+                    }}
                     className="w-full flex justify-between items-center py-2 text-left"
                   >
                     <span>Services</span>
@@ -199,45 +301,92 @@ export function Header(): React.JSX.Element {
                   </button>
                 </div>
 
-                {/* --- Mobile Services Submenu START --- */}
                 {isServicesOpen && (
                   <div className="bg-gray-50 -mt-1">
                     <ul className="ml-6 pl-4 border-l-2 border-gray-300 space-y-3 py-3">
                       <li>
-                        <a 
-                          href="#water-chemical" 
+                        <Link 
+                          to="/#water-chemical"
                           className="block py-3 pl-2 text-gray-700 hover:text-primary"
-                          onClick={toggleMobileMenu}
+                          onClick={(e) => {
+                            toggleMobileMenu();
+                            if (window.location.pathname === '/') {
+                              e.preventDefault();
+                              const section = document.getElementById('water-chemical');
+                              if (section) {
+                                section.scrollIntoView({ behavior: 'smooth' });
+                              }
+                            }
+                          }}
                         >
                           Water & Chemical Solutions
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a 
-                          href="#construction" 
+                        <Link 
+                          to="/#construction"
                           className="block py-3 pl-2 text-gray-700 hover:text-primary"
-                          onClick={toggleMobileMenu}
+                          onClick={(e) => {
+                            toggleMobileMenu();
+                            if (window.location.pathname === '/') {
+                              e.preventDefault();
+                              const section = document.getElementById('construction');
+                              if (section) {
+                                section.scrollIntoView({ behavior: 'smooth' });
+                              }
+                            }
+                          }}
                         >
                           Construction
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
                 )}
-                {/* --- Mobile Services Submenu END --- */}
-
               </div>
               {/* --- Mobile Services Dropdown END --- */}
 
-              <Link to="/gallery" className="py-2 border-b border-gray-200" onClick={toggleMobileMenu}>
+              <Link 
+                to="/gallery" 
+                className="py-2 border-b border-gray-200"
+                onClick={toggleMobileMenu}
+              >
                 Gallery
               </Link>
-              <a href="#contact" className="py-2 border-b border-gray-200" onClick={toggleMobileMenu}>
+              
+              <Link 
+                to="/#contact"
+                className="py-2 border-b border-gray-200 block"
+                onClick={(e) => {
+                  toggleMobileMenu();
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+              >
                 Contact Us
-              </a>
-              <a href="#contact" className="py-2 bg-primary text-white text-center rounded-md" onClick={toggleMobileMenu}>
+              </Link>
+              
+              <Link 
+                to="/#contact"
+                className="py-2 bg-primary text-white text-center rounded-md block"
+                onClick={(e) => {
+                  toggleMobileMenu();
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+              >
                 Get Quote
-              </a>
+              </Link>
             </div>
           </div>
         )}
@@ -246,46 +395,28 @@ export function Header(): React.JSX.Element {
       {/* --- Header END --- */}
 
       {/* --- Back to Top Button START --- */}
-      <div
-        style={{
-          position: "fixed",
-          right: "24px",
-          bottom: "24px",
-          zIndex: 50,
-          opacity: showScrollTop ? 1 : 0,
-          visibility: showScrollTop ? "visible" : "hidden",
-          transition: "opacity 0.3s ease, visibility 0.3s ease",
-        }}
-      >
+      {showScrollTop && (
         <button
           onClick={scrollToTop}
+          className="fixed bottom-8 right-8 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-primary/90 transition-colors duration-200 z-40"
           aria-label="Back to top"
-          className="group"
-          style={{
-            width: "44px",
-            height: "44px",
-            borderRadius: "50%",
-            backgroundColor: "#10B981",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            border: "2px solid white",
-            cursor: "pointer",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            transition: "all 0.2s ease-in-out",
-          }}
         >
-          <span 
-            className="text-2xl font-bold group-hover:-translate-y-0.5 transition-transform"
-            style={{
-              display: "inline-block"
-            }}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            ↑
-          </span>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 10l7-7m0 0l7 7m-7-7v18"
+            />
+          </svg>
         </button>
-      </div>
+      )}
       {/* --- Back to Top Button END --- */}
     </>
   );
