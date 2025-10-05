@@ -57,10 +57,10 @@ export function HeroSection({
           </div>
 
           {/* --- CTA Buttons START --- */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-md mx-auto sm:max-w-none">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-xs sm:max-w-md mx-auto">
             <a 
               href={ctaLink}
-              className="w-full sm:w-auto text-center bg-primary hover:bg-primary/90 text-white px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg md:px-12 md:py-5 md:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-transparent"
+              className="w-auto inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white px-8 py-3 text-base sm:px-8 sm:py-4 sm:text-lg md:px-12 md:py-5 md:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-transparent whitespace-nowrap"
             >
               {ctaText}
             </a>
@@ -68,7 +68,7 @@ export function HeroSection({
             {showSecondaryButton && (
               <Button 
                 variant="outline"
-                className="w-full sm:w-auto text-center bg-white hover:bg-gray-100 text-primary px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg md:px-12 md:py-5 md:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-primary hover:border-primary/80"
+                className="w-auto inline-flex items-center justify-center bg-white hover:bg-gray-100 text-primary px-8 py-3 text-base sm:px-8 sm:py-4 sm:text-lg md:px-12 md:py-5 md:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-primary hover:border-primary/80 whitespace-nowrap"
                 onClick={() => setIsQuoteModalOpen(true)}
               >
                 Request Quote
