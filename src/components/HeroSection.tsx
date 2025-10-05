@@ -21,12 +21,12 @@ export function HeroSection({
 }: HeroSectionProps) {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
-  // Header height for spacing
-  const headerHeight = 400;
+  // Header height for spacing - reduced for mobile
+  const headerHeight = typeof window !== 'undefined' && window.innerWidth < 640 ? 200 : 400;
 
   return (
     <section
-      className="relative min-h-[80vh] flex items-start pt-32 justify-center"
+      className="relative min-h-[90vh] flex items-start sm:items-center justify-center"
       style={{ paddingTop: `${headerHeight}px` }}
     >
       {/* --- Background Image START --- */}
@@ -42,25 +42,25 @@ export function HeroSection({
       {/* --- Background Image END --- */}
 
       {/* --- Content START --- */}
-      <div className="relative z-20 w-full flex flex-col items-center justify-center -mt-8 sm:mt-0">
-        <div className="container mx-auto px-6 text-center">
+      <div className="relative z-20 w-full flex flex-col items-center justify-start sm:justify-center px-4 pt-4 sm:pt-0">
+        <div className="w-full max-w-4xl mx-auto text-center">
           {/* Text Content with Semi-Transparent Background */}
-          <div className="bg-black/40 inline-block px-8 py-6 rounded-lg mb-8">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-center">
-              <div className="mb-2">
+          <div className="bg-black/40 inline-block px-6 py-4 sm:px-8 sm:py-6 rounded-lg mb-6 sm:mb-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-center">
+              <div className="mb-1 sm:mb-2">
                 <span className="text-green-500">Green</span> <span className="text-white">Environmental,</span>
               </div>
-              <div className="text-white">
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
                 Chemical & Construction Solutions
               </div>
             </h1>
           </div>
 
           {/* --- CTA Buttons START --- */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-md mx-auto sm:max-w-none">
             <a 
               href={ctaLink}
-              className="w-full sm:w-auto text-center bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg sm:px-12 sm:py-5 sm:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-transparent"
+              className="w-full sm:w-auto text-center bg-primary hover:bg-primary/90 text-white px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg md:px-12 md:py-5 md:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-transparent"
             >
               {ctaText}
             </a>
@@ -68,7 +68,7 @@ export function HeroSection({
             {showSecondaryButton && (
               <Button 
                 variant="outline"
-                className="w-full sm:w-auto text-center bg-white hover:bg-gray-100 text-primary px-8 py-4 text-lg sm:px-12 sm:py-5 sm:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-primary hover:border-primary/80"
+                className="w-full sm:w-auto text-center bg-white hover:bg-gray-100 text-primary px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg md:px-12 md:py-5 md:text-2xl lg:px-16 lg:py-6 lg:text-3xl rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 border-2 border-primary hover:border-primary/80"
                 onClick={() => setIsQuoteModalOpen(true)}
               >
                 Request Quote

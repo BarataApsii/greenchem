@@ -8,6 +8,7 @@ export function Header() {
   const [isServicesOpen, setIsServicesOpen] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const servicesRef = useRef<HTMLDivElement>(null);
+  const [navigatingTo, setNavigatingTo] = useState<string | null>(null);
 
   // --- Scroll hide/show header + Back to Top visibility ---
   useEffect(() => {
@@ -56,6 +57,42 @@ export function Header() {
       setIsServicesOpen(false);
     }
   };
+
+  // --- Handle scrolling to sections after navigation ---
+  useEffect(() => {
+    if (navigatingTo) {
+      // Close menus first
+      setIsMobileMenuOpen(false);
+      setIsServicesOpen(false);
+      
+      // If not on home page, navigate to home with hash
+      if (window.location.pathname !== '/') {
+        window.location.href = `/#${navigatingTo}`;
+        return;
+      }
+      
+      // If already on home page, scroll to section
+      const scrollToSection = () => {
+        const section = document.getElementById(navigatingTo);
+        if (section) {
+          // Add a small offset to account for fixed header
+          const yOffset = -100;
+          const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      };
+      
+      // Small delay to ensure menus are closed before scrolling
+      const timer = setTimeout(() => {
+        scrollToSection();
+        // Try again after a short delay in case the section isn't immediately available
+        const retryTimer = setTimeout(scrollToSection, 300);
+        return () => clearTimeout(retryTimer);
+      }, 50);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [navigatingTo]);
 
   // --- Close dropdown when clicking outside ---
   useEffect(() => {
@@ -321,40 +358,28 @@ export function Header() {
                   <div className="bg-gray-50 -mt-1">
                     <ul className="ml-6 pl-4 border-l-2 border-gray-300 space-y-3 py-3">
                       <li>
-                        <Link 
-                          to="/#water-chemical"
+                        <a 
+                          href="#water-chemical"
                           className="block py-3 pl-2 text-gray-700 hover:text-primary"
                           onClick={(e) => {
-                            toggleMobileMenu();
-                            if (window.location.pathname === '/') {
-                              e.preventDefault();
-                              const section = document.getElementById('water-chemical');
-                              if (section) {
-                                section.scrollIntoView({ behavior: 'smooth' });
-                              }
-                            }
+                            e.preventDefault();
+                            setNavigatingTo('water-chemical');
                           }}
                         >
                           Water & Chemical Solutions
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link 
-                          to="/#construction"
+                        <a 
+                          href="#construction"
                           className="block py-3 pl-2 text-gray-700 hover:text-primary"
                           onClick={(e) => {
-                            toggleMobileMenu();
-                            if (window.location.pathname === '/') {
-                              e.preventDefault();
-                              const section = document.getElementById('construction');
-                              if (section) {
-                                section.scrollIntoView({ behavior: 'smooth' });
-                              }
-                            }
+                            e.preventDefault();
+                            setNavigatingTo('construction');
                           }}
                         >
                           Construction
-                        </Link>
+                        </a>
                       </li>
                     </ul>
                   </div>
