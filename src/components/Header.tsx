@@ -8,7 +8,6 @@ export function Header() {
   const [isServicesOpen, setIsServicesOpen] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const servicesRef = useRef<HTMLDivElement>(null);
-  const [navigatingTo, setNavigatingTo] = useState<string | null>(null);
 
   // --- Scroll hide/show header + Back to Top visibility ---
   useEffect(() => {
@@ -42,57 +41,70 @@ export function Header() {
   }, []);
 
   // --- Dropdown + Mobile menu toggle handlers ---
-  const toggleServices = (e?: React.MouseEvent) => {
-    if (e) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
+  const toggleServices = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     setIsServicesOpen(prev => !prev);
   };
   
+  const closeAllMenus = () => {
+    setIsMobileMenuOpen(false);
+    setIsServicesOpen(false);
+  };
+  
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(prev => !prev);
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
     // Close services dropdown when mobile menu is closed
-    if (isMobileMenuOpen) {
+    if (!newState) {
       setIsServicesOpen(false);
     }
   };
-
-  // --- Handle scrolling to sections after navigation ---
+  
+  // Close mobile menu when clicking outside or on navigation items
   useEffect(() => {
-    if (navigatingTo) {
-      // Close menus first
-      setIsMobileMenuOpen(false);
-      setIsServicesOpen(false);
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      const menu = document.querySelector('.mobile-menu-container');
+      const hamburger = document.querySelector('[aria-label="Toggle menu"]');
       
-      // If not on home page, navigate to home with hash
-      if (window.location.pathname !== '/') {
-        window.location.href = `/#${navigatingTo}`;
-        return;
+      // Check if click is on a navigation link or outside the menu
+      const isNavLink = target.closest('a[href^="#"], a[href^="/"], button[onclick]');
+      const isOutsideMenu = menu && !menu.contains(target) && hamburger && !hamburger.contains(target);
+      
+      if (isNavLink || isOutsideMenu) {
+        closeAllMenus();
       }
-      
-      // If already on home page, scroll to section
-      const scrollToSection = () => {
-        const section = document.getElementById(navigatingTo);
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('click', handleClick, { capture: true });
+    }
+    
+    return () => {
+      document.removeEventListener('click', handleClick, { capture: true });
+    };
+  }, [isMobileMenuOpen]);
+
+  // --- Handle initial page load with hash ---
+  useEffect(() => {
+    // Handle hash in URL on initial page load
+    const handleInitialHash = () => {
+      if (window.location.hash) {
+        const hash = window.location.hash.substring(1);
+        const section = document.getElementById(hash);
         if (section) {
-          // Add a small offset to account for fixed header
           const yOffset = -100;
           const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
           window.scrollTo({ top: y, behavior: 'smooth' });
         }
-      };
-      
-      // Small delay to ensure menus are closed before scrolling
-      const timer = setTimeout(() => {
-        scrollToSection();
-        // Try again after a short delay in case the section isn't immediately available
-        const retryTimer = setTimeout(scrollToSection, 300);
-        return () => clearTimeout(retryTimer);
-      }, 50);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [navigatingTo]);
+      }
+    };
+    
+    // Small delay to ensure page is fully loaded
+    const timer = setTimeout(handleInitialHash, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   // --- Close dropdown when clicking outside ---
   useEffect(() => {
@@ -302,14 +314,17 @@ export function Header() {
 
         {/* --- Mobile Menu START --- */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white shadow-lg">
+          <div className="mobile-menu-container md:hidden bg-white shadow-lg">
             <div className="flex flex-col space-y-2 px-6 py-4">
               <Link 
                 to="/" 
-                className="py-2 border-b border-gray-200"
-                onClick={() => {
-                  toggleMobileMenu();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
+                className="py-2 border-b border-gray-200 block"
+                onClick={(e) => {
+                  setIsMobileMenuOpen(false);
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
                 }}
               >
                 Home
@@ -319,7 +334,7 @@ export function Header() {
                 to="/#about"
                 className="py-2 border-b border-gray-200 block"
                 onClick={(e) => {
-                  toggleMobileMenu();
+                  setIsMobileMenuOpen(false);
                   if (window.location.pathname === '/') {
                     e.preventDefault();
                     const aboutSection = document.getElementById('about');
@@ -363,7 +378,17 @@ export function Header() {
                           className="block py-3 pl-2 text-gray-700 hover:text-primary"
                           onClick={(e) => {
                             e.preventDefault();
-                            setNavigatingTo('water-chemical');
+                            closeAllMenus();
+                            if (window.location.pathname !== '/') {
+                              window.location.href = '/#water-chemical';
+                            } else {
+                              const section = document.getElementById('water-chemical');
+                              if (section) {
+                                const yOffset = -100;
+                                const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                                window.scrollTo({ top: y, behavior: 'smooth' });
+                              }
+                            }
                           }}
                         >
                           Water & Chemical Solutions
@@ -375,7 +400,17 @@ export function Header() {
                           className="block py-3 pl-2 text-gray-700 hover:text-primary"
                           onClick={(e) => {
                             e.preventDefault();
-                            setNavigatingTo('construction');
+                            closeAllMenus();
+                            if (window.location.pathname !== '/') {
+                              window.location.href = '/#construction';
+                            } else {
+                              const section = document.getElementById('construction');
+                              if (section) {
+                                const yOffset = -100;
+                                const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                                window.scrollTo({ top: y, behavior: 'smooth' });
+                              }
+                            }
                           }}
                         >
                           Construction
@@ -389,23 +424,36 @@ export function Header() {
 
               <Link 
                 to="/gallery" 
-                className="py-2 border-b border-gray-200"
-                onClick={toggleMobileMenu}
+                className="py-2 border-b border-gray-200 block"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(false);
+                  // Small delay to allow menu to close before navigation
+                  setTimeout(() => {
+                    window.location.href = '/gallery';
+                  }, 200);
+                }}
               >
                 Gallery
               </Link>
               
               <Link 
-                to="/#contact"
+                to="/"
                 className="py-2 border-b border-gray-200 block"
                 onClick={(e) => {
-                  toggleMobileMenu();
+                  e.preventDefault();
+                  closeAllMenus();
                   if (window.location.pathname === '/') {
-                    e.preventDefault();
                     const contactSection = document.getElementById('contact');
                     if (contactSection) {
-                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                      // Small delay to ensure menu is closed
+                      setTimeout(() => {
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
                     }
+                  } else {
+                    // If not on home page, navigate to home with hash
+                    window.location.href = '/#contact';
                   }
                 }}
               >
