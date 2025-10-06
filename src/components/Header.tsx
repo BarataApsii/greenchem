@@ -373,15 +373,13 @@ export function Header() {
                   <div className="bg-gray-50 -mt-1">
                     <ul className="ml-6 pl-4 border-l-2 border-gray-300 space-y-3 py-3">
                       <li>
-                        <a 
-                          href="#water-chemical"
+                        <Link 
+                          to="/#water-chemical"
                           className="block py-3 pl-2 text-gray-700 hover:text-primary"
                           onClick={(e) => {
-                            e.preventDefault();
                             closeAllMenus();
-                            if (window.location.pathname !== '/') {
-                              window.location.href = '/#water-chemical';
-                            } else {
+                            if (window.location.pathname === '/') {
+                              e.preventDefault();
                               const section = document.getElementById('water-chemical');
                               if (section) {
                                 const yOffset = -100;
@@ -392,18 +390,16 @@ export function Header() {
                           }}
                         >
                           Water & Chemical Solutions
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a 
-                          href="#construction"
+                        <Link 
+                          to="/#construction" 
                           className="block py-3 pl-2 text-gray-700 hover:text-primary"
                           onClick={(e) => {
-                            e.preventDefault();
                             closeAllMenus();
-                            if (window.location.pathname !== '/') {
-                              window.location.href = '/#construction';
-                            } else {
+                            if (window.location.pathname === '/') {
+                              e.preventDefault();
                               const section = document.getElementById('construction');
                               if (section) {
                                 const yOffset = -100;
@@ -414,7 +410,7 @@ export function Header() {
                           }}
                         >
                           Construction
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -425,35 +421,22 @@ export function Header() {
               <Link 
                 to="/gallery" 
                 className="py-2 border-b border-gray-200 block"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMobileMenuOpen(false);
-                  // Small delay to allow menu to close before navigation
-                  setTimeout(() => {
-                    window.location.href = '/gallery';
-                  }, 200);
-                }}
+                onClick={() => closeAllMenus()}
               >
                 Gallery
               </Link>
               
               <Link 
-                to="/"
+                to="/#contact"
                 className="py-2 border-b border-gray-200 block"
                 onClick={(e) => {
-                  e.preventDefault();
                   closeAllMenus();
                   if (window.location.pathname === '/') {
+                    e.preventDefault();
                     const contactSection = document.getElementById('contact');
                     if (contactSection) {
-                      // Small delay to ensure menu is closed
-                      setTimeout(() => {
-                        contactSection.scrollIntoView({ behavior: 'smooth' });
-                      }, 100);
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
                     }
-                  } else {
-                    // If not on home page, navigate to home with hash
-                    window.location.href = '/#contact';
                   }
                 }}
               >

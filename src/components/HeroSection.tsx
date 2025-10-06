@@ -21,28 +21,22 @@ export function HeroSection({
 }: HeroSectionProps) {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
-  // Header height for spacing - reduced for mobile
-  const headerHeight = typeof window !== 'undefined' && window.innerWidth < 640 ? 200 : 400;
-
   return (
-    <section
-      className="relative min-h-[90vh] flex items-start sm:items-center justify-center"
-      style={{ paddingTop: `${headerHeight}px` }}
-    >
+    <section className="relative min-h-screen flex items-center justify-center py-16 sm:py-0">
       {/* --- Background Image START --- */}
-      <div className="absolute inset-0 flex justify-center">
-        <div className="w-full sm:w-11/12 md:w-4/5 lg:w-full h-full">
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <div className="absolute inset-0">
           <ImageWithFallback
             src={backgroundImage}
             alt={title}
-            className="w-full h-full object-cover opacity-80 rounded-lg sm:rounded-none"
+            className="w-full h-full object-cover opacity-80"
           />
         </div>
       </div>
       {/* --- Background Image END --- */}
 
       {/* --- Content START --- */}
-      <div className="relative z-20 w-full flex flex-col items-center justify-start sm:justify-center px-4 pt-4 sm:pt-0">
+      <div className="relative z-10 w-full flex flex-col items-center justify-center px-4 py-16 sm:py-0">
         <div className="w-full max-w-4xl mx-auto text-center">
           {/* Text Content with Semi-Transparent Background */}
           <div className="bg-black/40 inline-block px-6 py-4 sm:px-8 sm:py-6 rounded-lg mb-6 sm:mb-8">
