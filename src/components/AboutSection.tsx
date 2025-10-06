@@ -20,7 +20,7 @@ export function AboutSection() {
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
           <div>
-            <h3 className="text-3xl mb-6 text-primary">Our Story</h3>
+            <h3 className="text-3xl mb-6 text-primary"> <br></br></h3>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
                 GreenChem Ltd is a locally established family owned and operated business based in Port Moresby, Papua New Guinea since 2011. We are committed to providing outstanding service and quality guaranteed at the fairest price.
