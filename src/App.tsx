@@ -12,7 +12,7 @@ import ConstructionSection from "./components/services/ConstructionSection";
 function Home() {
   return (
     <div className="space-y-0">
-      {/* Hero Section - No top padding as it's full height */}
+      {/* Hero Section */}
       <section className="relative">
         <HeroSection 
           title="Green Environmental Solutions"
