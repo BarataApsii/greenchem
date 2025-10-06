@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
@@ -9,50 +9,6 @@ import { QuoteModal } from "./QuoteModal";
 
 export function ContactSection() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const contactInfo = [
-    {
-      title: "Head Office",
-      details: [
-        "Port Moresby, Papua New Guinea",
-        "info@greenchem.com.pg",
-        "+675 325 1234"
-      ],
-      hours: "Mon - Fri: 8:00 AM - 5:00 PM",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      )
-    },
-    {
-      title: "Emergency Response",
-      details: [
-        "24/7 Emergency Hotline",
-        "emergency@greenchem.com.pg",
-        "+675 325 9999"
-      ],
-      hours: "Available 24/7",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-        </svg>
-      )
-    },
-    {
-      title: "Project Inquiries",
-      details: [
-        "New Projects & Consultation",
-        "projects@greenchem.com.pg",
-        "+675 325 5678"
-      ],
-      hours: "Mon - Fri: 8:00 AM - 5:00 PM",
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-        </svg>
-      )
-    }
-  ];
 
   return (
     <section id="contact" className="pt-16 pb-24 bg-muted/30 relative overflow-hidden">
@@ -67,74 +23,78 @@ export function ContactSection() {
       <div className="container mx-auto px-6 relative">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl mb-6">Contact Us</h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <h2 className="text-4xl lg:text-5xl mb-6 text-primary">Contact Us</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-black">
             Get in touch with our team for consultation, project quotes, or emergency support. 
             We're here to help with all your environmental and construction needs.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-12 mb-16 items-stretch">
+        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Contact Information Card */}
-          <div className="lg:col-span-1">
-            <Card className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm h-full">
-              <CardHeader className="pb-2 px-6 pt-6">
-                <h3 className="text-xl font-semibold text-gray-900">Contact Information</h3>
-                <p className="text-sm text-muted-foreground">Reach out to us through any of these channels</p>
-              </CardHeader>
-              <CardContent className="px-6 pb-6 space-y-6">
-                {contactInfo.map((info, index) => (
-                  <div key={index} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-lg flex items-center justify-center text-white flex-shrink-0">
-                        {info.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-base font-medium text-gray-900 mb-1">{info.title}</h4>
-                        <div className="space-y-1">
-                          {info.details.map((detail, detailIndex) => (
-                            <p key={detailIndex} className="text-sm text-gray-600">
-                              {detail}
-                            </p>
-                          ))}
-                        </div>
-                        <p className="text-xs text-primary font-medium mt-2">{info.hours}</p>
-                      </div>
-                    </div>
+          <Card className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm h-full">
+            <CardHeader className="pb-2 px-6 pt-6">
+              <h3 className="text-xl font-semibold text-primary">Contact Information</h3>
+              <p className="text-sm text-muted-foreground">Reach out to us through any of these channels</p>
+            </CardHeader>
+            <CardContent className="px-6 pb-6">
+              <div className="space-y-6">
+                <h4 className="text-xl font-semibold text-primary mb-6">Contact Information</h4>
+                
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary flex-shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
                   </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
+                  <div>
+                    <p className="text-base text-gray-700">+675 72593204 (Digicel)</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary flex-shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-base text-gray-700">jwilliams@greenchem.com.pg</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary flex-shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-base text-gray-700">Green Chem, P. O. Box 28, Gordons, NCDC Papua New Guinea</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Contact Form */}
-          <div className="lg:col-span-2">
+          <div>
             <Card className="bg-white/90 backdrop-blur-sm shadow-xl">
               <CardHeader>
-                <CardTitle className="text-2xl">Send us a Message</CardTitle>
                 <p className="text-muted-foreground">
                   Fill out the form below and we'll get back to you within 24 hours.
                 </p>
               </CardHeader>
               <CardContent>
                 <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name *</Label>
-                      <Input 
-                        id="firstName" 
-                        placeholder="Enter your first name"
-                        className="bg-input-background border-border"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name *</Label>
-                      <Input 
-                        id="lastName" 
-                        placeholder="Enter your last name"
-                        className="bg-input-background border-border"
-                      />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName">Full Name *</Label>
+                    <Input 
+                      id="fullName" 
+                      placeholder="Enter your full name"
+                      className="bg-input-background border-border"
+                    />
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
@@ -208,7 +168,6 @@ export function ContactSection() {
             </Card>
           </div>
         </div>
-
       </div>
 
       <QuoteModal 

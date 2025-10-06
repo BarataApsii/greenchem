@@ -1,12 +1,41 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
+  const headerRef = useRef<HTMLElement>(null);
+
+  // Handle service item click - closes dropdown and scrolls to section
+  const handleServiceItemClick = (id: string) => {
+    // Close both mobile menu and services dropdown
+    setIsServicesOpen(false);
+    setIsMenuOpen(false);
+    
+    const scrollToSection = () => {
+      const section = document.getElementById(id);
+      if (section) {
+        const yOffset = -80;
+        const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    };
+
+    if (location.pathname !== "/") {
+      navigate("/", { replace: true });
+      // Wait for navigation to complete
+      const timer = setTimeout(() => {
+        scrollToSection();
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      scrollToSection();
+    }
+  };
 
   // Smooth scroll with menu close
   const handleScroll = (id: string) => {
@@ -48,8 +77,62 @@ export function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
+  // Handle scroll to show/hide header
+  useEffect(() => {
+    if (!headerRef.current) return;
+    
+    const headerHeight = headerRef.current.offsetHeight;
+    let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    const handleScroll = () => {
+      if (!headerRef.current) return;
+      
+      const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+      const isScrollingDown = currentScrollPos > lastScrollTop;
+      
+      // Always show header when at the top of the page or when scrolling up
+      if (currentScrollPos <= 0 || !isScrollingDown) {
+        if (!isVisible || headerRef.current.style.transform !== 'translateY(0px)') {
+          setIsVisible(true);
+          headerRef.current.style.transform = 'translateY(0)';
+        }
+      } 
+      // Hide when scrolling down past a small threshold (10px)
+      else if (isScrollingDown && currentScrollPos > 10) {
+        if (isVisible || headerRef.current.style.transform !== `translateY(-${headerHeight}px)`) {
+          setIsVisible(false);
+          headerRef.current.style.transform = `translateY(-${headerHeight}px)`;
+        }
+      }
+      
+      lastScrollTop = currentScrollPos <= 0 ? 0 : currentScrollPos;
+    };
+    
+    // Use requestAnimationFrame for smoother performance
+    let ticking = false;
+    
+    const scrollHandler = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+    };
+  }, [isVisible]);
+
   return (
-    <header className="bg-white shadow-sm fixed w-full z-50">
+    <header 
+      ref={headerRef}
+      className="bg-white shadow-sm fixed w-full z-50 transition-transform duration-300 ease-in-out"
+    >
       <div className="w-full max-w-[1920px] mx-auto">
         <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center h-32 px-36">
           {/* Logo */}
@@ -71,19 +154,18 @@ export function Header() {
           <nav className="flex items-center space-x-16 justify-self-center">
             <Link 
               to="/" 
+              className="text-base font-medium text-gray-900 hover:text-green-600 transition-colors"
               onClick={(e) => {
-                if (location.pathname === "/") {
+                if (location.pathname === '/') {
                   e.preventDefault();
-                  handleScroll("home");
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
               }}
-              className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
             >
               Home
             </Link>
             <button
               onClick={() => handleScroll("about")}
-              className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
             >
               About Us
             </button>
@@ -105,13 +187,13 @@ export function Header() {
               {isServicesOpen && (
                 <div className="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg py-2 z-50">
                   <button
-                    onClick={() => handleScroll("water-chemical")}
+                    onClick={() => handleServiceItemClick("water-chemical")}
                     className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100 whitespace-nowrap"
                   >
                     Water & Chemical Solutions
                   </button>
                   <button
-                    onClick={() => handleScroll("construction")}
+                    onClick={() => handleServiceItemClick("construction")}
                     className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100 whitespace-nowrap"
                   >
                     Construction
@@ -119,12 +201,12 @@ export function Header() {
                 </div>
               )}
             </div>
-            <button
-              onClick={() => handleScroll("gallery")}
+            <Link
+              to="/gallery"
               className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
             >
               Gallery
-            </button>
+            </Link>
             <button
               onClick={() => handleScroll("contact")}
               className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
@@ -137,7 +219,7 @@ export function Header() {
           <div className="justify-self-end mr-20">
             <button
               onClick={() => handleScroll("contact")}
-              className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-sm font-medium text-base tracking-wider transition-colors whitespace-nowrap"
+              className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-sm font-medium text-base tracking-wider transition-colors whitespace-nowrap"
             >
               Get Quote
             </button>
@@ -228,7 +310,7 @@ export function Header() {
           <Link
             to="/gallery"
             onClick={() => setIsMenuOpen(false)}
-            className="px-6 py-3 text-left text-gray-700 hover:bg-gray-50 text-sm uppercase tracking-wider border-t border-gray-100"
+            className="px-6 py-3 text-left text-gray-700 hover:bg-gray-50 text-base tracking-wider border-t border-gray-100"
           >
             Gallery
           </Link>
