@@ -1,14 +1,10 @@
-import { useState } from "react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 
-import { QuoteModal } from "./QuoteModal";
-
 export function ContactSection() {
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   return (
     <section id="contact" className="pt-16 pb-24 bg-muted/30 relative overflow-hidden">
@@ -23,8 +19,8 @@ export function ContactSection() {
       <div className="container mx-auto px-6 relative">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl mb-6 text-primary">Contact Us</h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-black">
+          <h2 className="text-4xl lg:text-5xl mb-6 text-primary font-bold">Contact Us</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-primary">
             Get in touch with our team for consultation, project quotes, or emergency support. 
             We're here to help with all your environmental and construction needs.
           </p>
@@ -35,11 +31,10 @@ export function ContactSection() {
           <Card className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm h-full">
             <CardHeader className="pb-2 px-6 pt-6">
               <h3 className="text-xl font-semibold text-primary">Contact Information</h3>
-              <p className="text-sm text-muted-foreground">Reach out to us through any of these channels</p>
+              <p className="text-base text-muted-foreground">Feel free to reach out to us for any inquiries or questions.</p>
             </CardHeader>
             <CardContent className="px-6 pb-6">
               <div className="space-y-6">
-                <h4 className="text-xl font-semibold text-primary mb-6">Contact Information</h4>
                 
                 <div className="flex items-start space-x-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary flex-shrink-0">
@@ -48,7 +43,7 @@ export function ContactSection() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-base text-gray-700">+675 72593204 (Digicel)</p>
+                    <p className="text-base text-gray-700">+675 72593204</p>
                   </div>
                 </div>
 
@@ -82,9 +77,9 @@ export function ContactSection() {
           <div>
             <Card className="bg-white/90 backdrop-blur-sm shadow-xl">
               <CardHeader>
-                <p className="text-muted-foreground">
-                  Fill out the form below and we'll get back to you within 24 hours.
-                </p>
+                <h3 className="text-xl font-semibold text-primary">
+                Fill out the form below and we'll get back to you within 24 hours.
+                </h3>
               </CardHeader>
               <CardContent>
                 <form className="space-y-6">
@@ -146,19 +141,12 @@ export function ContactSection() {
                     />
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Button type="submit" className="flex-1 py-3 shadow-lg hover:shadow-xl transition-shadow">
-                      Send Message
-                    </Button>
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      className="flex-1 py-3 border-2"
-                      onClick={() => setIsQuoteModalOpen(true)}
-                    >
-                      Request Quote
-                    </Button>
-                  </div>
+                  <Button 
+                    type="submit" 
+                    className="w-full py-3 shadow-lg hover:shadow-xl transition-shadow"
+                  >
+                    Send Message
+                  </Button>
 
                   <p className="text-sm text-muted-foreground">
                     * Required fields. We respect your privacy and will never share your information.
@@ -170,10 +158,6 @@ export function ContactSection() {
         </div>
       </div>
 
-      <QuoteModal 
-        isOpen={isQuoteModalOpen} 
-        onClose={() => setIsQuoteModalOpen(false)} 
-      />
     </section>
   );
 }

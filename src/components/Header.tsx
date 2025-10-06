@@ -207,21 +207,15 @@ export function Header() {
             >
               Gallery
             </Link>
-            <button
-              onClick={() => handleScroll("contact")}
-              className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
-            >
-              Contact Us
-            </button>
           </nav>
           
-          {/* Get Quote Button */}
+          {/* Get Quote Button - Scrolls to Contact */}
           <div className="justify-self-end mr-20">
             <button
               onClick={() => handleScroll("contact")}
               className="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-sm font-medium text-base tracking-wider transition-colors whitespace-nowrap"
             >
-              Get Quote
+              Contact Us
             </button>
           </div>
         </div>
@@ -319,7 +313,7 @@ export function Header() {
               handleScroll("contact");
               setIsMenuOpen(false);
             }}
-            className="px-6 py-3 text-left text-gray-700 hover:bg-gray-50 text-sm uppercase tracking-wider border-t border-gray-100"
+            className="px-6 py-3 text-left text-gray-700 hover:bg-gray-50 text-base tracking-wider border-t border-gray-100"
           >
             Contact Us
           </button>
