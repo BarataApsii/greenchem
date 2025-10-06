@@ -427,16 +427,19 @@ export function Header() {
               </Link>
               
               <Link 
-                to="/#contact"
+                to="#"
                 className="py-2 border-b border-gray-200 block"
                 onClick={(e) => {
+                  e.preventDefault();
                   closeAllMenus();
                   if (window.location.pathname === '/') {
-                    e.preventDefault();
                     const contactSection = document.getElementById('contact');
                     if (contactSection) {
                       contactSection.scrollIntoView({ behavior: 'smooth' });
                     }
+                  } else {
+                    // If not on home page, navigate to home with hash
+                    window.location.href = '/#contact';
                   }
                 }}
               >
@@ -444,10 +447,20 @@ export function Header() {
               </Link>
               
               <Link 
-                to="/#contact"
+                to="#"
                 className="py-2 bg-primary text-white text-center rounded-md block"
                 onClick={(e) => {
-                  toggleMobileMenu();
+                  e.preventDefault();
+                  closeAllMenus();
+                  if (window.location.pathname === '/') {
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  } else {
+                    // If not on home page, navigate to home with hash
+                    window.location.href = '/#contact';
+                  }
                   if (window.location.pathname === '/') {
                     e.preventDefault();
                     const contactSection = document.getElementById('contact');
