@@ -44,34 +44,31 @@ export function Header() {
         setIsMenuOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-24">
-          {/* Desktop Navigation with Logo */}
-          <div className="hidden md:flex items-center w-full">
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <Link 
-                to="/" 
-                className="flex items-center h-full"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              >
-                <img
-                  src="./images/logo.png"
-                  alt="Green Environmental"
-                  className="h-24 w-auto"
-                />
-              </Link>
-            </div>
+    <header className="bg-white shadow-sm fixed w-full z-50">
+      <div className="w-full max-w-[1920px] mx-auto">
+        <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center h-32 px-36">
+          {/* Logo */}
+          <div className="flex-shrink-0 justify-self-start">
+            <Link 
+              to="/" 
+              className="flex items-center"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              <img
+                src="./images/logo.png"
+                alt="Green Environmental"
+                className="h-24 w-auto"
+              />
+            </Link>
+          </div>
 
-            {/* Navigation Items */}
-            <nav className="flex items-center space-x-20 mx-auto">
+          {/* Navigation Items - Centered */}
+          <nav className="flex items-center space-x-16 justify-self-center">
             <Link 
               to="/" 
               onClick={(e) => {
@@ -105,67 +102,68 @@ export function Header() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
               {isServicesOpen && (
-                <div 
-                  className="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-2 z-50"
-                  onMouseLeave={() => setIsServicesOpen(false)}
-                >
+                <div className="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg py-2 z-50">
                   <button
                     onClick={() => handleScroll("water-chemical")}
-                    className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100 whitespace-nowrap"
                   >
                     Water & Chemical Solutions
                   </button>
                   <button
                     onClick={() => handleScroll("construction")}
-                    className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100 whitespace-nowrap"
                   >
                     Construction
                   </button>
                 </div>
               )}
             </div>
-            <Link 
-              to="/gallery" 
+            <button
+              onClick={() => handleScroll("gallery")}
               className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
             >
               Gallery
-            </Link>
-            </nav>
-            
-            {/* Get Quote Button */}
-            <div className="ml-8">
-              <button
-                onClick={() => handleScroll("contact")}
-                className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-sm font-medium text-base tracking-wider transition-colors whitespace-nowrap"
-              >
-                Get Quote
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Header */}
-          <div className="md:hidden flex items-center w-full justify-between">
-            <Link 
-              to="/" 
-              className="flex items-center"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            >
-              <img
-                src="./images/logo.png"
-                alt="Green Environmental"
-                className="h-24 w-auto"
-              />
-            </Link>
+            </button>
             <button
-              className="text-gray-800 focus:outline-none"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
+              onClick={() => handleScroll("contact")}
+              className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
             >
-              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              Contact Us
+            </button>
+          </nav>
+          
+          {/* Get Quote Button */}
+          <div className="justify-self-end mr-20">
+            <button
+              onClick={() => handleScroll("contact")}
+              className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-sm font-medium text-base tracking-wider transition-colors whitespace-nowrap"
+            >
+              Get Quote
             </button>
           </div>
+        </div>
+
+        {/* Mobile Header */}
+        <div className="md:hidden flex items-center justify-between h-32 px-10">
+          <Link 
+            to="/" 
+            className="flex items-center"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <img
+              src="./images/logo.png"
+              alt="Green Environmental"
+              className="h-20 w-auto"
+            />
+          </Link>
+          <button
+            className="text-gray-800 focus:outline-none"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </div>
 
