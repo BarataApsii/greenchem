@@ -88,22 +88,23 @@ export function Header() {
 
   // --- Handle initial page load with hash ---
   useEffect(() => {
-    // Handle hash in URL on initial page load
-    const handleInitialHash = () => {
-      if (window.location.hash) {
+    // Only handle hash navigation if it's not the initial page load
+    if (window.location.hash && window.location.hash !== '#') {
+      // Small delay to ensure the page is fully rendered
+      const timer = setTimeout(() => {
         const hash = window.location.hash.substring(1);
-        const section = document.getElementById(hash);
-        if (section) {
-          const yOffset = -100;
-          const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: y, behavior: 'smooth' });
+        if (hash) {
+          const section = document.getElementById(hash);
+          if (section) {
+            const yOffset = -100;
+            const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
         }
-      }
-    };
-    
-    // Small delay to ensure page is fully loaded
-    const timer = setTimeout(handleInitialHash, 500);
-    return () => clearTimeout(timer);
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   // --- Close dropdown when clicking outside ---
