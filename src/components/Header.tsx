@@ -154,7 +154,7 @@ export function Header() {
           <nav className="flex items-center space-x-16 justify-self-center">
             <Link 
               to="/" 
-              className="text-base font-medium text-gray-900 hover:text-green-600 transition-colors"
+              className="text-base font-medium text-gray-900 hover:text-green-600 transition-colors relative group"
               onClick={(e) => {
                 if (location.pathname === '/') {
                   e.preventDefault();
@@ -162,19 +162,28 @@ export function Header() {
                 }
               }}
             >
-              Home
+              <span className="relative">
+                Home
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </Link>
             <button
               onClick={() => handleScroll("about")}
-            className="text-base font-medium text-gray-900 hover:text-green-600 transition-colors">
-              About Us
+            className="text-base font-medium text-gray-900 hover:text-green-600 transition-colors relative group">
+              <span className="relative">
+                About Us
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </button>
             <div className="relative group">
               <button 
-                className="flex items-center text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
+                className="flex items-center text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider relative group"
                 onClick={() => setIsServicesOpen(!isServicesOpen)}
               >
-                Services
+                <span className="relative">
+                  Services
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-600 transition-all duration-300 group-hover:w-full"></span>
+                </span>
                 <svg 
                   className={`w-4 h-4 ml-1 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`}
                   fill="none" 
@@ -188,13 +197,13 @@ export function Header() {
                 <div className="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg py-2 z-50">
                   <button
                     onClick={() => handleServiceItemClick("water-chemical")}
-                    className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100 whitespace-nowrap"
+                    className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100 whitespace-nowrap hover:underline hover:underline-offset-4 hover:decoration-2"
                   >
                     Water & Chemical Solutions
                   </button>
                   <button
                     onClick={() => handleServiceItemClick("construction")}
-                    className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100 whitespace-nowrap"
+                    className="block w-full text-left px-4 py-2 text-base text-gray-700 hover:bg-gray-100 whitespace-nowrap hover:underline hover:underline-offset-4 hover:decoration-2"
                   >
                     Construction
                   </button>
@@ -203,9 +212,12 @@ export function Header() {
             </div>
             <Link
               to="/gallery"
-              className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider"
+              className="text-gray-800 hover:text-teal-600 font-medium text-base tracking-wider relative group"
             >
-              Gallery
+              <span className="relative">
+                Gallery
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-600 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </Link>
           </nav>
           
