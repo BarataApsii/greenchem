@@ -1,5 +1,28 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { api } from "../lib/api";
+
+declare global {
+  interface Window {
+    grecaptcha: any;
+  }
+}
+
+// Define the shape of the form data
+interface FormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  company: string;
+  subject: string;
+  message: string;
+}
+
+// Define the reCAPTCHA response type
+interface RecaptchaResponse {
+  token: string | null;
+  error?: string;
+}
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Input } from "./ui/input";
@@ -7,7 +30,7 @@ import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
     phone: "",
@@ -16,14 +39,67 @@ export function ContactSection() {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRecaptchaLoaded, setIsRecaptchaLoaded] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction = import.meta.env.PROD;
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LdL2eArAAAAABInwksT5GgLwaQSemuAFpWU_iDJ';
+  
+  console.log('isProduction:', isProduction);
+  console.log('reCAPTCHA site key:', recaptchaSiteKey);
+  
+  // Log reCAPTCHA status
+  useEffect(() => {
+    console.log('reCAPTCHA should be visible. isProduction:', isProduction);
+    if (window.grecaptcha) {
+      console.log('reCAPTCHA is available on window.grecaptcha');
+      setIsRecaptchaLoaded(true);
+    } else {
+      console.log('reCAPTCHA not found on window.grecaptcha');
+      // Try to load reCAPTCHA manually if not loaded
+      const script = document.createElement('script');
+      script.src = `https://www.google.com/recaptcha/api.js?render=explicit`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        console.log('reCAPTCHA script loaded manually');
+        setIsRecaptchaLoaded(true);
+      };
+      script.onerror = () => console.error('Failed to load reCAPTCHA script');
+      document.head.appendChild(script);
+    }
+  }, [isProduction]);
+  console.log('isProduction:', isProduction);
+  console.log('reCAPTCHA site key:', recaptchaSiteKey);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
   };
+
+  const verifyRecaptcha = useCallback(async (): Promise<RecaptchaResponse> => {
+    if (!isProduction) {
+      return { token: 'bypass-for-development' };
+    }
+
+    if (!recaptchaRef.current) {
+      return { token: null, error: 'reCAPTCHA not loaded' };
+    }
+
+    try {
+      const token = await recaptchaRef.current.executeAsync();
+      if (!token) {
+        throw new Error('Failed to get reCAPTCHA token');
+      }
+      return { token };
+    } catch (error) {
+      console.error('reCAPTCHA error:', error);
+      return { 
+        token: null, 
+        error: error instanceof Error ? error.message : 'reCAPTCHA verification failed' 
+      };
+    }
+  }, [isProduction]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,35 +107,23 @@ export function ContactSection() {
     setSubmitStatus("idle");
 
     try {
-      let recaptchaToken = 'bypass-for-development';
-      
-      // Only execute reCAPTCHA in production
-      if (isProduction && recaptchaRef.current) {
-        const token = await recaptchaRef.current.executeAsync();
-        if (token) {
-          recaptchaToken = token;
-        } else {
-          throw new Error("reCAPTCHA verification failed");
-        }
+      // Verify reCAPTCHA
+      const { token, error } = await verifyRecaptcha();
+      if (error || !token) {
+        throw new Error(error || 'Failed to verify reCAPTCHA');
       }
 
-      const response = await fetch("https://greenchem.vercel.app/api/contact.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.fullName,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          'g-recaptcha-response': recaptchaToken
-        }),
+      const response = await api.post('/contact.php', {
+        name: formData.fullName,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        phone: formData.phone,
+        company: formData.company,
+        'g-recaptcha-response': token
       });
-
-      const data = await response.json();
       
-      if (response.ok) {
+      if (response.data) {
         setSubmitStatus("success");
         setFormData({
           fullName: "",
@@ -70,7 +134,7 @@ export function ContactSection() {
           message: ""
         });
       } else {
-        throw new Error(data.message || "Failed to send message");
+        throw new Error(response.error || "Failed to send message");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -239,17 +303,22 @@ export function ContactSection() {
                       />
                     </div>
 
-                    {/* reCAPTCHA - Only load in production */}
-                    {isProduction && (
-                      <div className="flex justify-center">
+                    {/* reCAPTCHA */}
+                    <div className="mb-4">
+                      {!isRecaptchaLoaded && (
+                        <div className="text-center py-4 text-muted-foreground">
+                          Loading security check...
+                        </div>
+                      )}
+                      <div className={`${!isRecaptchaLoaded ? 'hidden' : ''}`}>
                         <ReCAPTCHA
                           ref={recaptchaRef}
-                          sitekey="6LdL2eArAAAAABInwksT5GgLwaQSemuAFpWU_iDJ"
+                          sitekey={recaptchaSiteKey}
                           size="normal"
                           theme="light"
                         />
                       </div>
-                    )}
+                    </div>
 
                     <Button 
                       type="submit" 
