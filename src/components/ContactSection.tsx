@@ -168,14 +168,15 @@ export function ContactSection() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {/* Contact Information Card */}
-          <Card className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm h-full">
-            <CardHeader className="pb-2 px-6 pt-6">
-              <h3 className="text-xl font-semibold text-primary">Contact Information</h3>
-              <p className="text-base text-muted-foreground">Feel free to reach out to us for any inquiries or questions.</p>
-            </CardHeader>
-            <CardContent className="px-6 pb-6">
-              <div className="space-y-6">
+          {/* Contact Information Card with Image */}
+          <div className="flex flex-col h-full">
+            <Card className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm h-full rounded-b-none">
+              <CardHeader className="pb-2 px-6 pt-6">
+                <h3 className="text-xl font-semibold text-primary">Contact Information</h3>
+                <p className="text-base text-muted-foreground">Feel free to reach out to us for any inquiries or questions.</p>
+              </CardHeader>
+              <CardContent className="px-6 pb-6">
+                <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary flex-shrink-0">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,9 +210,18 @@ export function ContactSection() {
                     <p className="text-base text-gray-700">Green Chem, P. O. Box 28, Gordons, NCDC Papua New Guinea</p>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                </div>
+              </CardContent>
+            </Card>
+            <div className="relative h-128 w-full overflow-hidden rounded-b-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                alt="Environmental consulting team discussing project"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-primary/20 mix-blend-multiply" />
+            </div>
+          </div>
 
           {/* Contact Form */}
           <div>
@@ -346,4 +356,4 @@ export function ContactSection() {
       </div>
     </section>
   );
-}
+};
