@@ -166,7 +166,7 @@ export function Header() {
             </Link>
             <button
               onClick={() => handleScroll("about")}
-            >
+            className="text-base font-medium text-gray-900 hover:text-green-600 transition-colors">
               About Us
             </button>
             <div className="relative group">
